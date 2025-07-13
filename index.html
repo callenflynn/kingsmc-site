@@ -1,297 +1,238 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kings MC Network</title>
-  <style>
-    body, html {
-      margin: 0; padding: 0;
-      height: 100%;
-      background: #111;
-      color: #eee;
-      font-family: Georgia, serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      position: relative;
-    }
-    nav {
-      display: flex;
-      width: 100%;
-      max-width: 700px;
-      background: #222;
-      border-bottom: 1px solid #333;
-      margin-top: 1rem;
-    }
-    nav button {
-      flex: 1;
-      background: #222;
-      border: none;
-      color: #ccc;
-      padding: 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-family: inherit;
-      outline-offset: 2px;
-    }
-    nav button:focus-visible {
-      outline: 2px solid #e3b341;
-    }
-    nav button.active, nav button:hover {
-      background: #333;
-      color: #e3b341;
-    }
-    main {
-      flex: 1;
-      max-width: 700px;
-      width: 90%;
-      padding: 1.5rem 1rem 5rem;
-      text-align: center;
-      position: relative;
-
-      /* Center the tab content container */
-      display: flex;
-      justify-content: center;
-    }
-    /* Container for sliding */
-    #tabContentContainer {
-      max-width: 700px;
-      width: 100%;
-      overflow: hidden;
-      position: relative;
-      height: 100%;
-      min-height: 300px; /* enough height so container doesn't collapse */
-    }
-    #tabContentSlider {
-      display: flex;
-      width: 200%;
-      transition: transform 0.5s ease;
-      will-change: transform;
-    }
-    main > div#tabContentContainer > div#tabContentSlider > section {
-      flex: 1 0 50%;
-      box-sizing: border-box;
-      padding: 0 1rem;
-      text-align: center;
-
-      /* Center content inside each panel */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    img.logo {
-      max-width: 280px;
-      height: auto;
-      margin-bottom: 1rem;
-    }
-    .buttons {
-      margin-top: 1rem;
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    button.copy, a.button-link {
-      background-color: #e3b341;
-      color: #111;
-      border: none;
-      border-radius: 4px;
-      padding: 0.8rem 1.4rem;
-      font-size: 1rem;
-      font-family: inherit;
-      cursor: pointer;
-      text-decoration: none;
-      user-select: none;
-      transition: background-color 0.25s ease;
-    }
-    button.copy:hover {
-      background-color: #cba52b;
-    }
-    a.button-link:hover {
-      background-color: #5865F2; /* Discord brand blue */
-      color: #fff;
-    }
-    .copy-feedback {
-      margin-top: 0.8rem;
-      font-size: 0.9rem;
-      color: #7fff7f;
-      min-height: 1.2em;
-      opacity: 1;
-      transition: opacity 0.5s ease;
-      user-select: none;
-    }
-    footer.server-ip {
-      margin-top: 1rem;
-      font-size: 0.95rem;
-      color: #777;
-    }
-    .watermark {
-      position: fixed;
-      bottom: 12px;
-      right: 12px;
-      font-size: 0.85rem;
-      color: #bbb;
-      text-decoration: underline;
-      opacity: 0.45;
-      user-select: none;
-      cursor: pointer;
-      transition: opacity 0.3s ease;
-      z-index: 1000;
-      outline-offset: 2px;
-    }
-    .watermark:focus-visible {
-      outline: 2px solid #e3b341;
-      opacity: 0.9;
-    }
-    .watermark:hover {
-      opacity: 0.9;
-    }
-    .stats-section {
-      background: #1a1a1a;
-      border-radius: 6px;
-      margin-top: 1.5rem;
-      padding: 1rem 1.2rem;
-      text-align: left;
-      height: 100%;
-    }
-    .smp-section {
-      border-left: 4px solid #e3b341;
-    }
-    .lifesteal-section {
-      border-left: 4px solid #e74c3c;
-    }
-    .section-title {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-    }
-    .smp-title {
-      color: #e3b341;
-    }
-    .lifesteal-title {
-      color: #e74c3c;
-    }
-    .players-list {
-      margin-top: 0.5rem;
-      color: #ccc;
-      font-size: 0.9rem;
-      overflow-wrap: break-word;
-    }
-    .players-list span {
-      display: inline-block;
-      margin: 0 3px 4px 0;
-      padding: 3px 7px;
-      background: #333;
-      border-radius: 3px;
-      cursor: default;
-      user-select: none;
-      transition: background-color 0.3s ease;
-    }
-    .players-list span:hover {
-      background-color: #555;
-    }
-    .status-dot {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-    .dot-online {
-      background-color: #2ecc71;
-    }
-    .dot-offline {
-      background-color: #e74c3c;
-    }
-    /* Single medium crown bottom center with gentle pulse */
-    @keyframes pulseOpacity {
-      0%, 100% {opacity: 0.15;}
-      50% {opacity: 0.28;}
-    }
-    .bottom-crown {
-      position: fixed;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 30px;
-      opacity: 0.15;
-      pointer-events: none;
-      z-index: 1000;
-      animation: pulseOpacity 6s ease-in-out infinite;
-    }
-    /* Spinner for loading */
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-top-color: #e3b341;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kings MC Network</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    background: #111;
+    color: #eee;
+    font-family: Georgia, serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  nav {
+    display: flex;
+    width: 100%;
+    max-width: 900px;
+    background: #222;
+    border-bottom: 1px solid #333;
+    margin-top: 1rem;
+  }
+  nav button {
+    flex: 1;
+    background: #222;
+    border: none;
+    color: #ccc;
+    padding: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: inherit;
+    outline-offset: 2px;
+  }
+  nav button:focus-visible {
+    outline: 2px solid #e3b341;
+  }
+  nav button.active, nav button:hover {
+    background: #333;
+    color: #e3b341;
+  }
+  main {
+    flex: 1;
+    max-width: 900px;
+    width: 90%;
+    padding: 1.5rem 1rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  #tabContentSlider {
+    display: flex;
+    width: 400%;
+    transition: transform 0.5s ease;
+  }
+  main > section {
+    flex: 1 0 25%;
+    box-sizing: border-box;
+    padding: 0 1rem;
+    text-align: center;
+  }
+  img.logo {
+    max-width: 280px;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+  .buttons {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  button.copy, a.button-link {
+    background-color: #e3b341;
+    color: #111;
+    border: none;
+    border-radius: 4px;
+    padding: 0.8rem 1.4rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.25s ease;
+  }
+  .copy-feedback {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    color: #7fff7f;
+    min-height: 1.2em;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    user-select: none;
+  }
+  .stats-section {
+    background: #1a1a1a;
+    border-radius: 6px;
+    margin: 1rem auto;
+    padding: 1rem 1.2rem;
+    text-align: left;
+  }
+  .smp-section {
+    border-left: 4px solid #e3b341;
+  }
+  .lifesteal-section {
+    border-left: 4px solid #e74c3c;
+  }
+  .section-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .smp-title {
+    color: #e3b341;
+  }
+  .lifesteal-title {
+    color: #e74c3c;
+  }
+  .players-list span {
+    display: inline-block;
+    margin: 0 3px 4px 0;
+    padding: 3px 7px;
+    background: #333;
+    border-radius: 3px;
+  }
+  .status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .dot-online {
+    background-color: #2ecc71;
+  }
+  .dot-offline {
+    background-color: #e74c3c;
+  }
+  footer.server-ip {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #777;
+  }
+  .bottom-crown {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 30px;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  ul.rules-list {
+    text-align: left;
+    list-style: none;
+    padding-left: 0;
+  }
+  ul.rules-list li {
+    margin-bottom: 0.75rem;
+  }
+</style>
 </head>
 <body>
 
-<nav role="tablist" aria-label="Primary">
-  <button id="tabHome" class="active" type="button" role="tab" aria-selected="true" aria-controls="contentHome" tabindex="0">Home</button>
-  <button id="tabStats" type="button" role="tab" aria-selected="false" aria-controls="contentStats" tabindex="-1">Server Stats</button>
+<nav>
+  <button id="tabHome" class="active">Home</button>
+  <button id="tabStats">Server Stats</button>
+  <button id="tabRules">Rules</button>
+  <button id="tabCredits">Credits</button>
 </nav>
 
 <main>
-  <div id="tabContentContainer" aria-live="polite">
-    <div id="tabContentSlider">
-      <section id="contentHome" role="tabpanel" tabindex="0" aria-labelledby="tabHome">
-        <img src="kingsmc.png" alt="Kings MC Network Logo" class="logo" />
-        <p>
-          Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes,
-          an active Discord community, and an overall fun experience!
-        </p>
-        <div class="buttons">
-          <a href="https://discord.gg/VJeepweWRr" target="_blank" rel="noopener noreferrer" class="button-link">Join Discord</a>
-          <button class="copy" id="copyButton" aria-label="Copy server IP to clipboard">Copy Server IP</button>
-        </div>
-        <div class="copy-feedback" id="copyFeedback" role="alert" aria-live="polite"></div>
-        <footer class="server-ip">
-          Server IP: <code>135.181.60.153:20011</code>
-        </footer>
-      </section>
+  <div id="tabContentSlider">
+    <!-- Home -->
+    <section>
+      <img src="kingsmc.png" alt="Logo" class="logo" />
+      <p>Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes, an active Discord community, and an overall fun experience!</p>
+      <div class="buttons">
+        <a href="https://discord.gg/VJeepweWRr" class="button-link" target="_blank">Join Discord</a>
+        <button class="copy" id="copyButton">Copy Server IP</button>
+      </div>
+      <div class="copy-feedback" id="copyFeedback"></div>
+      <footer class="server-ip">Server IP: <code>135.181.60.153:20011</code></footer>
+    </section>
 
-      <section id="contentStats" role="tabpanel" tabindex="0" aria-labelledby="tabStats">
-        <h2>Server Status</h2>
+    <!-- Server Stats -->
+    <section>
+      <h2>Server Status</h2>
+      <div class="stats-section smp-section">
+        <div class="section-title smp-title">SMP Server</div>
+        <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP data...</p>
+        <div id="smpOutput"></div>
+        <div id="smpPlayers" class="players-list"></div>
+      </div>
+      <div class="stats-section lifesteal-section">
+        <div class="section-title lifesteal-title">Lifesteal Server</div>
+        <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal data...</p>
+        <div id="lifestealOutput"></div>
+        <div id="lifestealPlayers" class="players-list"></div>
+      </div>
+    </section>
 
-        <div class="stats-section smp-section">
-          <div class="section-title smp-title">SMP Server</div>
-          <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP data...</p>
-          <div id="smpOutput"></div>
-          <div id="smpPlayers" class="players-list"></div>
-        </div>
+    <!-- Rules -->
+    <section style="text-align:left;">
+      <h2>🧑‍🤝‍🧑 SMP Rules</h2>
+      <ul class="rules-list">
+        <li>Respect Everyone. No bullying, harassment, hate speech, or discrimination.</li>
+        <li>Be kind and considerate to all players.</li>
+        <li>No spamming or inappropriate content.</li>
+        <li>No griefing or stealing. Always get permission.</li>
+        <li>No hacking or unfair mods. Optifine/minimaps allowed.</li>
+        <li>PvP must be consensual. No spawn killing.</li>
+        <li>No exploits or duplication glitches.</li>
+        <li>Build respectfully and avoid lag.</li>
+        <li>Clean up after yourself.</li>
+        <li>Staff must show proof of bans. No admin abuse.</li>
+        <li>Bots must not spam or disrupt gameplay.</li>
+      </ul>
+      <h2>💔 Lifesteal Rules</h2>
+      <p>🚫 NO RULES 🚫<br>Do whatever you want. No bans on Lifesteal.</p>
+    </section>
 
-        <div class="stats-section lifesteal-section">
-          <div class="section-title lifesteal-title">Lifesteal Server</div>
-          <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal data...</p>
-          <div id="lifestealOutput"></div>
-          <div id="lifestealPlayers" class="players-list"></div>
-        </div>
-      </section>
-    </div>
+    <!-- Credits -->
+    <section>
+      <h2>Credits</h2>
+      <p><strong>Web Developer:</strong> Callen</p>
+      <p><strong>Server Owner:</strong> Samuel King</p>
+    </section>
   </div>
 </main>
 
-<a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer" class="watermark" tabindex="0">site made by cal</a>
-
-<!-- Single medium crown SVG -->
-<svg class="bottom-crown" viewBox="0 0 64 32" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+<svg class="bottom-crown" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
   <g fill="#e3b341" stroke="#b08c22" stroke-width="1">
     <path d="M4 28 L10 10 L14 22 L20 8 L24 20 L30 6 L34 20 L38 8 L44 22 L48 10 L54 28 Z"/>
     <rect x="10" y="26" width="34" height="4" rx="1" ry="1"/>
@@ -299,126 +240,58 @@
 </svg>
 
 <script>
-  const tabHome = document.getElementById("tabHome");
-  const tabStats = document.getElementById("tabStats");
-  const tabContentSlider = document.getElementById("tabContentSlider");
-  const copyButton = document.getElementById("copyButton");
-  const copyFeedback = document.getElementById("copyFeedback");
+const tabs = [
+  {button: document.getElementById("tabHome"), index:0},
+  {button: document.getElementById("tabStats"), index:1},
+  {button: document.getElementById("tabRules"), index:2},
+  {button: document.getElementById("tabCredits"), index:3}
+];
+const slider = document.getElementById("tabContentSlider");
+const copyButton = document.getElementById("copyButton");
+const copyFeedback = document.getElementById("copyFeedback");
+const serverIP = "135.181.60.153:20011";
 
-  const serverIP = "135.181.60.153:20011";
+tabs.forEach(({button,index})=>{
+  button.addEventListener("click",()=>{
+    tabs.forEach(t=>t.button.classList.remove("active"));
+    button.classList.add("active");
+    slider.style.transform = `translateX(-${index*25}%)`;
+    if(index===1) loadServerStats();
+  });
+});
 
-  function activateTab(selectedTab) {
-    // Deactivate all tabs
-    [tabHome, tabStats].forEach(tab => {
-      tab.classList.remove("active");
-      tab.setAttribute("aria-selected", "false");
-      tab.tabIndex = -1;
-    });
-    // Activate selected tab
-    selectedTab.classList.add("active");
-    selectedTab.setAttribute("aria-selected", "true");
-    selectedTab.tabIndex = 0;
-    selectedTab.focus();
+copyButton.addEventListener("click",()=>{
+  navigator.clipboard.writeText(serverIP).then(()=>{
+    copyFeedback.textContent="Copied!";
+    copyFeedback.style.opacity="1";
+    setTimeout(()=>copyFeedback.style.opacity="0",1500);
+  });
+});
 
-    // Slide content
-    if (selectedTab === tabHome) {
-      tabContentSlider.style.transform = "translateX(0)";
-    } else {
-      tabContentSlider.style.transform = "translateX(-50%)";
-      loadServerStats();
+function loadServerStats(){
+  fetchServer("https://api.mcsrvstat.us/2/95.217.120.159:10015",
+    document.getElementById("smpStatus"),
+    document.getElementById("smpOutput"),
+    document.getElementById("smpPlayers"));
+  fetchServer("https://api.mcsrvstat.us/2/65.109.155.228:15015",
+    document.getElementById("lifestealStatus"),
+    document.getElementById("lifestealOutput"),
+    document.getElementById("lifestealPlayers"));
+}
+function fetchServer(url,statusEl,outputEl,playersEl){
+  statusEl.innerHTML='<span class="status-dot dot-offline"></span>Loading...';
+  outputEl.innerHTML="";
+  playersEl.innerHTML="";
+  fetch(url).then(r=>r.json()).then(data=>{
+    if(!data.online){
+      statusEl.innerHTML='<span class="status-dot dot-offline"></span>Server offline.';
+      return;
     }
-  }
-
-  tabHome.addEventListener("click", () => activateTab(tabHome));
-  tabStats.addEventListener("click", () => activateTab(tabStats));
-
-  // Keyboard navigation for tabs
-  [tabHome, tabStats].forEach((tab, idx) => {
-    tab.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-        e.preventDefault();
-        const nextIdx = (e.key === "ArrowRight") ? (idx + 1) % 2 : (idx + 1 + 2 - 1) % 2;
-        [tabHome, tabStats][nextIdx].click();
-      }
-    });
-  });
-
-  copyButton.addEventListener("click", () => {
-    navigator.clipboard.writeText(serverIP).then(() => {
-      copyFeedback.textContent = "Copied!";
-      copyFeedback.style.opacity = "1";
-      setTimeout(() => {
-        copyFeedback.style.opacity = "0";
-      }, 1500);
-    }).catch(() => {
-      copyFeedback.textContent = "Failed to copy.";
-      copyFeedback.style.opacity = "1";
-      setTimeout(() => {
-        copyFeedback.style.opacity = "0";
-      }, 1500);
-    });
-  });
-
-  function createSpinner() {
-    return '<span class="spinner" aria-hidden="true"></span>';
-  }
-
-  function loadServerStats() {
-    fetchServer(
-      "https://api.mcsrvstat.us/2/95.217.120.159:10015",
-      document.getElementById("smpStatus"),
-      document.getElementById("smpOutput"),
-      document.getElementById("smpPlayers")
-    );
-    fetchServer(
-      "https://api.mcsrvstat.us/2/65.109.155.228:15015",
-      document.getElementById("lifestealStatus"),
-      document.getElementById("lifestealOutput"),
-      document.getElementById("lifestealPlayers")
-    );
-  }
-
-  function fetchServer(url, statusEl, outputEl, playersEl) {
-    statusEl.innerHTML = createSpinner() + ' Loading...';
-    outputEl.innerHTML = "";
-    playersEl.innerHTML = "";
-
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        if (!data.online) {
-          statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Server is offline.';
-          outputEl.innerHTML = "";
-          playersEl.innerHTML = "";
-          return;
-        }
-        statusEl.innerHTML = '<span class="status-dot dot-online"></span>Server is online.';
-
-        const players = data.players ? `${data.players.online} / ${data.players.max}` : "Unknown";
-        const motd = data.motd && data.motd.clean ? data.motd.clean.join(" ") : "N/A";
-        const version = data.version || "N/A";
-
-        outputEl.innerHTML = `
-          <strong>Version:</strong> ${version}<br/>
-          <strong>Players:</strong> ${players}<br/>
-          <strong>MOTD:</strong> ${motd}
-        `;
-
-        if (data.players && data.players.list && data.players.list.length > 0) {
-          playersEl.innerHTML = data.players.list
-            .map(player => `<span title="Online Player">${player}</span>`)
-            .join("");
-        } else {
-          playersEl.innerHTML = "<em>No player list available.</em>";
-        }
-      })
-      .catch(() => {
-        statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Error loading data.';
-        outputEl.innerHTML = "";
-        playersEl.innerHTML = "";
-      });
-  }
+    statusEl.innerHTML='<span class="status-dot dot-online"></span>Server online.';
+    outputEl.innerHTML=`<strong>Version:</strong> ${data.version||"N/A"}<br><strong>Players:</strong> ${data.players?.online||0} / ${data.players?.max||0}<br><strong>MOTD:</strong> ${data.motd?.clean?.join(" ")||"N/A"}`;
+    playersEl.innerHTML=data.players?.list?.map(p=>`<span>${p}</span>`).join("")||"";
+  }).catch(()=>statusEl.innerHTML='<span class="status-dot dot-offline"></span>Error loading data.');
+}
 </script>
-
 </body>
 </html>
