@@ -7,15 +7,13 @@
 <style>
   body {
     margin: 0;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #111, #222);
+    font-family: "Georgia", serif;
+    background: #111 url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="0.5" fill="%23e3b341" /></svg>') repeat;
     color: #f0f0f0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0;
-    position: relative;
   }
 
   nav {
@@ -34,6 +32,7 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s;
+    font-family: inherit;
   }
 
   nav button.active, nav button:hover {
@@ -70,6 +69,7 @@
     cursor: pointer;
     text-decoration: none;
     transition: background-color 0.3s ease;
+    font-family: inherit;
   }
 
   button.copy:hover, a.button-link:hover {
@@ -158,14 +158,21 @@
     background-color: #e74c3c;
   }
 
-  .gold-decoration {
+  .flourish {
     position: fixed;
     bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: #e3b341;
-    opacity: 0.2;
+    width: 60px;
+    height: 60px;
+    opacity: 0.3;
+    fill: #e3b341;
+    z-index: 999;
+  }
+  .flourish.left {
+    left: 10px;
+  }
+  .flourish.right {
+    right: 10px;
+    transform: scaleX(-1);
   }
 </style>
 </head>
@@ -211,7 +218,14 @@
 </div>
 
 <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer" class="watermark">site made by cal</a>
-<div class="gold-decoration"></div>
+
+<!-- Royal Flourishes -->
+<svg class="flourish left" viewBox="0 0 512 512">
+  <path d="M256 32l32 96h96l-80 64 32 96-80-64-80 64 32-96-80-64h96z"/>
+</svg>
+<svg class="flourish right" viewBox="0 0 512 512">
+  <path d="M256 32l32 96h96l-80 64 32 96-80-64-80 64 32-96-80-64h96z"/>
+</svg>
 
 <script>
   const tabHome = document.getElementById("tabHome");
@@ -250,7 +264,6 @@
   });
 
   function loadServerStats() {
-    // SMP
     fetchServer(
       "https://api.mcsrvstat.us/2/95.217.120.159:10015",
       document.getElementById("smpStatus"),
@@ -258,7 +271,6 @@
       document.getElementById("smpPlayers")
     );
 
-    // Lifesteal
     fetchServer(
       "https://api.mcsrvstat.us/2/65.109.155.228:15015",
       document.getElementById("lifestealStatus"),
