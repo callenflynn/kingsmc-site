@@ -15,6 +15,7 @@
     flex-direction: column;
     align-items: center;
     padding: 0;
+    position: relative;
   }
 
   nav {
@@ -140,6 +141,32 @@
     color: #ccc;
   }
 
+  .status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .dot-online {
+    background-color: #2ecc71;
+  }
+
+  .dot-offline {
+    background-color: #e74c3c;
+  }
+
+  .gold-decoration {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #e3b341;
+    opacity: 0.2;
+  }
 </style>
 </head>
 <body>
@@ -170,20 +197,21 @@
 
   <div class="stats-section smp-section">
     <div class="section-title smp-title">SMP Server</div>
-    <p id="smpStatus">Loading SMP data...</p>
+    <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP data...</p>
     <div id="smpOutput"></div>
     <div id="smpPlayers" class="players-list"></div>
   </div>
 
   <div class="stats-section lifesteal-section">
     <div class="section-title lifesteal-title">Lifesteal Server</div>
-    <p id="lifestealStatus">Loading Lifesteal data...</p>
+    <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal data...</p>
     <div id="lifestealOutput"></div>
     <div id="lifestealPlayers" class="players-list"></div>
   </div>
 </div>
 
 <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer" class="watermark">site made by cal</a>
+<div class="gold-decoration"></div>
 
 <script>
   const tabHome = document.getElementById("tabHome");
@@ -240,17 +268,22 @@
   }
 
   function fetchServer(url, statusEl, outputEl, playersEl) {
-    statusEl.textContent = "Loading...";
+    statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Loading...';
     outputEl.innerHTML = "";
     playersEl.innerHTML = "";
+
     fetch(url)
       .then(response => response.json())
       .then(data => {
+        const dot = statusEl.querySelector(".status-dot");
         if (!data.online) {
-          statusEl.textContent = "Server is offline.";
+          dot.className = "status-dot dot-offline";
+          statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Server is offline.';
           return;
         }
-        statusEl.textContent = "Server is online.";
+        dot.className = "status-dot dot-online";
+        statusEl.innerHTML = '<span class="status-dot dot-online"></span>Server is online.';
+
         const players = data.players ? `${data.players.online} / ${data.players.max}` : "Unknown";
         const motd = data.motd && data.motd.clean ? data.motd.clean.join(" ") : "N/A";
         const version = data.version || "N/A";
@@ -271,7 +304,7 @@
         }
       })
       .catch(err => {
-        statusEl.textContent = "Error loading data.";
+        statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Error loading data.';
         console.error(err);
       });
   }
