@@ -51,9 +51,14 @@
       padding: 1.5rem 1rem 5rem;
       text-align: center;
       position: relative;
+
+      /* Center the tab content container */
+      display: flex;
+      justify-content: center;
     }
     /* Container for sliding */
     #tabContentContainer {
+      max-width: 700px;
       width: 100%;
       overflow: hidden;
       position: relative;
@@ -66,11 +71,17 @@
       transition: transform 0.5s ease;
       will-change: transform;
     }
-    main > section {
+    main > div#tabContentContainer > div#tabContentSlider > section {
       flex: 1 0 50%;
       box-sizing: border-box;
       padding: 0 1rem;
       text-align: center;
+
+      /* Center content inside each panel */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
     }
     img.logo {
       max-width: 280px;
