@@ -42,7 +42,7 @@
 
   .tab-content {
     padding: 2rem 1rem;
-    max-width: 600px;
+    max-width: 700px;
     text-align: center;
   }
 
@@ -105,14 +105,39 @@
     opacity: 0.85;
   }
 
-  .stats-output {
-    margin-top: 1rem;
-    font-size: 1rem;
-    color: #ccc;
-    text-align: left;
+  .stats-section {
     background: #1a1a1a;
     padding: 1rem;
     border-radius: 5px;
+    margin-top: 1.5rem;
+    text-align: left;
+  }
+
+  .smp-section {
+    border-left: 4px solid #e3b341;
+  }
+
+  .lifesteal-section {
+    border-left: 4px solid #e74c3c;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .smp-title {
+    color: #e3b341;
+  }
+
+  .lifesteal-title {
+    color: #e74c3c;
+  }
+
+  .players-list {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: #ccc;
   }
 
 </style>
@@ -142,8 +167,20 @@
 
 <div id="contentStats" class="tab-content" style="display:none;">
   <h2>Server Status</h2>
-  <p id="statusLoading">Loading server data...</p>
-  <div id="statsOutput" class="stats-output"></div>
+
+  <div class="stats-section smp-section">
+    <div class="section-title smp-title">SMP Server</div>
+    <p id="smpStatus">Loading SMP data...</p>
+    <div id="smpOutput"></div>
+    <div id="smpPlayers" class="players-list"></div>
+  </div>
+
+  <div class="stats-section lifesteal-section">
+    <div class="section-title lifesteal-title">Lifesteal Server</div>
+    <p id="lifestealStatus">Loading Lifesteal data...</p>
+    <div id="lifestealOutput"></div>
+    <div id="lifestealPlayers" class="players-list"></div>
+  </div>
 </div>
 
 <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer" class="watermark">site made by cal</a>
@@ -156,7 +193,8 @@
   const copyButton = document.getElementById("copyButton");
   const copyFeedback = document.getElementById("copyFeedback");
 
-  // Tab switching
+  const serverIP = "135.181.60.153:20011";
+
   tabHome.addEventListener("click", () => {
     tabHome.classList.add("active");
     tabStats.classList.remove("active");
@@ -172,8 +210,6 @@
     loadServerStats();
   });
 
-  // Copy IP
-  const serverIP = "135.181.60.153:20011";
   copyButton.addEventListener("click", () => {
     navigator.clipboard.writeText(serverIP).then(() => {
       copyFeedback.textContent = "Copied!";
@@ -185,33 +221,57 @@
     });
   });
 
-  // Fetch server stats
   function loadServerStats() {
-    const statusLoading = document.getElementById("statusLoading");
-    const statsOutput = document.getElementById("statsOutput");
-    statusLoading.textContent = "Loading server data...";
-    statsOutput.innerHTML = "";
-    fetch("https://api.mcsrvstat.us/2/135.181.60.153:20011")
+    // SMP
+    fetchServer(
+      "https://api.mcsrvstat.us/2/95.217.120.159:10015",
+      document.getElementById("smpStatus"),
+      document.getElementById("smpOutput"),
+      document.getElementById("smpPlayers")
+    );
+
+    // Lifesteal
+    fetchServer(
+      "https://api.mcsrvstat.us/2/65.109.155.228:15015",
+      document.getElementById("lifestealStatus"),
+      document.getElementById("lifestealOutput"),
+      document.getElementById("lifestealPlayers")
+    );
+  }
+
+  function fetchServer(url, statusEl, outputEl, playersEl) {
+    statusEl.textContent = "Loading...";
+    outputEl.innerHTML = "";
+    playersEl.innerHTML = "";
+    fetch(url)
       .then(response => response.json())
       .then(data => {
         if (!data.online) {
-          statusLoading.textContent = "Server is offline.";
+          statusEl.textContent = "Server is offline.";
           return;
         }
-        statusLoading.textContent = "Server is online.";
+        statusEl.textContent = "Server is online.";
         const players = data.players ? `${data.players.online} / ${data.players.max}` : "Unknown";
         const motd = data.motd && data.motd.clean ? data.motd.clean.join(" ") : "N/A";
         const version = data.version || "N/A";
 
-        statsOutput.innerHTML = `
-          <strong>IP:</strong> ${serverIP}<br/>
+        outputEl.innerHTML = `
           <strong>Version:</strong> ${version}<br/>
           <strong>Players:</strong> ${players}<br/>
           <strong>MOTD:</strong> ${motd}
         `;
+
+        if (data.players && data.players.list && data.players.list.length > 0) {
+          playersEl.innerHTML = `
+            <strong>Online Players:</strong><br/>
+            ${data.players.list.join(", ")}
+          `;
+        } else {
+          playersEl.innerHTML = "<em>No player list available.</em>";
+        }
       })
       .catch(err => {
-        statusLoading.textContent = "Error loading server data.";
+        statusEl.textContent = "Error loading data.";
         console.error(err);
       });
   }
