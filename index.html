@@ -1,164 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kings MC Network</title>
-  <style>
-    body, html {
-      margin: 0; padding: 0;
-      height: 100%;
-      background: #111;
-      color: #eee;
-      font-family: Georgia, serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      position: relative;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      width: 100%;
-      max-width: 700px;
-      background: #222;
-      border-bottom: 1px solid #333;
-      margin-top: 1rem;
-      gap: 2px;
-    }
-    nav button {
-      width: 130px;
-      flex: 0 0 auto;
-      background: #222;
-      border: none;
-      color: #ccc;
-      padding: 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-family: inherit;
-      outline-offset: 2px;
-      text-align: center;
-    }
-    nav button:focus-visible {
-      outline: 2px solid #e3b341;
-    }
-    nav button.active,
-    nav button:hover {
-      background: #333;
-      color: #e3b341;
-    }
-    main {
-      flex: 1;
-      max-width: 700px;
-      width: 90%;
-      padding: 1.5rem 1rem 5rem;
-      text-align: center;
-      position: relative;
-    }
-    main > section {
-      display: none;
-    }
-    main > section.active {
-      display: block;
-    }
-    img.logo {
-      max-width: 280px;
-      height: auto;
-      margin-bottom: 1rem;
-    }
-    .buttons {
-      margin-top: 1rem;
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    button.copy,
-    a.button-link {
-      background-color: #e3b341;
-      color: #111;
-      border: none;
-      border-radius: 4px;
-      padding: 0.8rem 1.4rem;
-      font-size: 1rem;
-      font-family: inherit;
-      cursor: pointer;
-      text-decoration: none;
-      user-select: none;
-      transition: background-color 0.25s ease;
-    }
-    button.copy:hover {
-      background-color: #cba52b;
-    }
-    a.button-link:hover {
-      background-color: #5865F2;
-      color: #fff;
-    }
-    .copy-feedback {
-      margin-top: 0.8rem;
-      font-size: 0.9rem;
-      color: #7fff7f;
-      min-height: 1.2em;
-      opacity: 1;
-      transition: opacity 0.5s ease;
-      user-select: none;
-    }
-    footer.server-ip {
-      margin-top: 1rem;
-      font-size: 0.95rem;
-      color: #777;
-    }
-    .watermark {
-      position: fixed;
-      bottom: 12px;
-      right: 12px;
-      font-size: 0.85rem;
-      color: #bbb;
-      text-decoration: underline;
-      opacity: 0.45;
-      user-select: none;
-      cursor: pointer;
-      transition: opacity 0.3s ease;
-      z-index: 1000;
-      outline-offset: 2px;
-    }
-    .watermark:hover,
-    .watermark:focus-visible {
-      opacity: 0.9;
-    }
-    .bottom-crown {
-      position: fixed;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 30px;
-      opacity: 0.15;
-      pointer-events: none;
-    }
-    .concord-box {
-      background: #1a1a1a;
-      padding: 1.5rem;
-      margin-top: 1rem;
-      border: 2px solid #e3b341;
-      border-radius: 6px;
-      color: #e3b341;
-      font-size: 1rem;
-    }
-    .concord-logo {
-      max-width: 200px;
-      height: auto;
-      margin: 1rem auto;
-      display: block;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kings MC Network</title>
+<style>
+  body, html {
+    margin: 0; padding: 0;
+    background: #111;
+    color: #eee;
+    font-family: Georgia, serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 700px;
+    background: #222;
+    border-bottom: 1px solid #333;
+    margin-top: 1rem;
+  }
+  nav button {
+    width: 130px;
+    flex: 0 0 auto;
+    background: #222;
+    border: none;
+    color: #ccc;
+    padding: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: inherit;
+  }
+  nav button:focus-visible {
+    outline: 2px solid #e3b341;
+  }
+  nav button.active, nav button:hover {
+    background: #333;
+    color: #e3b341;
+  }
+  main {
+    flex: 1;
+    max-width: 700px;
+    width: 90%;
+    padding: 1.5rem 1rem 5rem;
+    text-align: center;
+  }
+  main > section { display: none; }
+  main > section.active { display: block; }
+  img.logo {
+    max-width: 280px;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+  .buttons {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  button.copy, a.button-link {
+    background-color: #e3b341;
+    color: #111;
+    border: none;
+    border-radius: 4px;
+    padding: 0.8rem 1.4rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  button.copy:hover {
+    background-color: #cba52b;
+  }
+  a.button-link:hover {
+    background-color: #5865F2;
+    color: #fff;
+  }
+  .copy-feedback {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    color: #7fff7f;
+    min-height: 1.2em;
+  }
+  footer.server-ip {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #777;
+  }
+  .watermark {
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    font-size: 0.85rem;
+    color: #bbb;
+    text-decoration: underline;
+    opacity: 0.45;
+    cursor: pointer;
+  }
+  .watermark:hover { opacity: 0.9; }
+  .bottom-crown {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    opacity: 0.15;
+  }
+  .stats-section {
+    background: #1a1a1a;
+    border-radius: 6px;
+    margin-top: 1.5rem;
+    padding: 1rem 1.2rem;
+    text-align: left;
+  }
+  .smp-title { color: #e3b341; }
+  .lifesteal-title { color: #e74c3c; }
+  .status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+  .dot-online { background: #2ecc71; }
+  .dot-offline { background: #e74c3c; }
+  .players-list span {
+    display: inline-block;
+    margin: 2px;
+    padding: 3px 7px;
+    background: #333;
+    border-radius: 3px;
+  }
+  .concord-box {
+    background: #1a1a1a;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border: 2px solid #e3b341;
+    border-radius: 6px;
+    color: #e3b341;
+  }
+  .concord-logo {
+    max-width: 200px;
+    display: block;
+    margin: 1rem auto;
+  }
+</style>
 </head>
 <body>
 
-<nav role="tablist" aria-label="Primary">
+<nav>
   <button data-tab="home" class="active">Home</button>
   <button data-tab="stats">Server Stats</button>
   <button data-tab="rules">Rules</button>
@@ -180,19 +176,32 @@
 
   <section id="stats">
     <h2>Server Status</h2>
-    <p>(Dynamic server status loading goes here if needed)</p>
+
+    <div class="stats-section">
+      <h3 class="smp-title">SMP Server</h3>
+      <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP status...</p>
+      <div id="smpOutput"></div>
+      <div id="smpPlayers" class="players-list"></div>
+    </div>
+
+    <div class="stats-section">
+      <h3 class="lifesteal-title">Lifesteal Server</h3>
+      <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal status...</p>
+      <div id="lifestealOutput"></div>
+      <div id="lifestealPlayers" class="players-list"></div>
+    </div>
   </section>
 
   <section id="rules">
     <h2>SMP Rules</h2>
-    <p>🧑‍🤝‍🧑 Respect Everyone...<br/>(Insert full rules text here)</p>
+    <p>[Insert SMP rules text here]</p>
     <h2>💔 Lifesteal Rules</h2>
     <p>Do whatever you want. 🚫 NO RULES 🚫</p>
   </section>
 
   <section id="credits">
     <h2>Credits</h2>
-    <p><strong>Web Developer:</strong> <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" style="color: #e3b341; text-decoration: underline;">Callen</a></p>
+    <p><strong>Web Developer:</strong> <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank">Callen</a></p>
     <p><strong>Server Owner:</strong> Samuel King</p>
   </section>
 
@@ -201,13 +210,12 @@
     <img src="concord.png" alt="Concord SMP Logo" class="concord-logo" />
     <div class="concord-box">
       <p><strong>Concord SMP:</strong><br />An SMP server — no mods, no anticheat, just fun.</p>
-      <p><a href="https://concord-smp.vercel.app/" target="_blank" style="color: #e3b341; text-decoration: underline;">Visit Concord SMP</a></p>
+      <p><a href="https://concord-smp.vercel.app/" target="_blank">Visit Concord SMP</a></p>
     </div>
   </section>
 </main>
 
 <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" class="watermark">site made by cal</a>
-
 <svg class="bottom-crown" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
   <g fill="#e3b341" stroke="#b08c22" stroke-width="1">
     <path d="M4 28 L10 10 L14 22 L20 8 L24 20 L30 6 L34 20 L38 8 L44 22 L48 10 L54 28 Z"/>
@@ -216,30 +224,60 @@
 </svg>
 
 <script>
-  const tabs = document.querySelectorAll("nav button");
-  const sections = document.querySelectorAll("main > section");
-  const copyBtn = document.querySelector(".copy");
-  const feedback = document.querySelector(".copy-feedback");
+const tabs = document.querySelectorAll("nav button");
+const sections = document.querySelectorAll("main > section");
+const copyBtn = document.querySelector(".copy");
+const feedback = document.querySelector(".copy-feedback");
 
-  tabs.forEach(btn => {
-    btn.addEventListener("click", () => {
-      tabs.forEach(b => b.classList.remove("active"));
-      sections.forEach(s => s.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById(btn.dataset.tab).classList.add("active");
-    });
+tabs.forEach(btn => {
+  btn.addEventListener("click", () => {
+    tabs.forEach(b => b.classList.remove("active"));
+    sections.forEach(s => s.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+    if(btn.dataset.tab === "stats") loadServerStats();
   });
+});
 
-  copyBtn.addEventListener("click", () => {
-    navigator.clipboard.writeText("135.181.60.153:20011").then(() => {
-      feedback.textContent = "Copied!";
-      setTimeout(() => feedback.textContent = "", 1500);
-    });
+copyBtn.addEventListener("click", () => {
+  navigator.clipboard.writeText("135.181.60.153:20011").then(() => {
+    feedback.textContent = "Copied!";
+    setTimeout(()=> feedback.textContent="",1500);
   });
+});
+
+function loadServerStats(){
+  fetchServer("https://api.mcsrvstat.us/2/95.217.120.159:10015",
+    document.getElementById("smpStatus"),
+    document.getElementById("smpOutput"),
+    document.getElementById("smpPlayers"));
+  fetchServer("https://api.mcsrvstat.us/2/65.109.155.228:15015",
+    document.getElementById("lifestealStatus"),
+    document.getElementById("lifestealOutput"),
+    document.getElementById("lifestealPlayers"));
+}
+
+function fetchServer(url,statusEl,outputEl,playersEl){
+  statusEl.innerHTML = "Loading...";
+  outputEl.textContent = "";
+  playersEl.textContent = "";
+  fetch(url)
+    .then(r=>r.json())
+    .then(data=>{
+      if(!data.online){
+        statusEl.innerHTML='<span class="status-dot dot-offline"></span>Server is offline.';
+        return;
+      }
+      statusEl.innerHTML='<span class="status-dot dot-online"></span>Server is online.';
+      outputEl.innerHTML=`<strong>Version:</strong> ${data.version || "N/A"}<br/>
+      <strong>Players:</strong> ${data.players?.online ?? "?"} / ${data.players?.max ?? "?"}`;
+      if(data.players?.list){
+        playersEl.innerHTML = data.players.list.map(p=>`<span>${p}</span>`).join("");
+      }
+    })
+    .catch(()=>statusEl.innerHTML='<span class="status-dot dot-offline"></span>Error loading.');
+}
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
