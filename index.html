@@ -52,16 +52,25 @@
       text-align: center;
       position: relative;
     }
-    main > section {
-      opacity: 1;
-      transition: opacity 0.3s ease;
-      will-change: opacity;
+    /* Container for sliding */
+    #tabContentContainer {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      height: 100%;
+      min-height: 300px; /* enough height so container doesn't collapse */
     }
-    main > section.hidden {
-      opacity: 0;
-      pointer-events: none;
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
+    #tabContentSlider {
+      display: flex;
+      width: 200%;
+      transition: transform 0.5s ease;
+      will-change: transform;
+    }
+    main > section {
+      flex: 1 0 50%;
+      box-sizing: border-box;
+      padding: 0 1rem;
+      text-align: center;
     }
     img.logo {
       max-width: 280px;
@@ -136,6 +145,7 @@
       margin-top: 1.5rem;
       padding: 1rem 1.2rem;
       text-align: left;
+      height: 100%;
     }
     .smp-section {
       border-left: 4px solid #e3b341;
@@ -157,6 +167,7 @@
       margin-top: 0.5rem;
       color: #ccc;
       font-size: 0.9rem;
+      overflow-wrap: break-word;
     }
     .players-list span {
       display: inline-block;
@@ -227,39 +238,43 @@
 </nav>
 
 <main>
-  <section id="contentHome" role="tabpanel" tabindex="0">
-    <img src="kingsmc.png" alt="Kings MC Network Logo" class="logo" />
-    <p>
-      Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes,
-      an active Discord community, and an overall fun experience!
-    </p>
-    <div class="buttons">
-      <a href="https://discord.gg/VJeepweWRr" target="_blank" rel="noopener noreferrer" class="button-link">Join Discord</a>
-      <button class="copy" id="copyButton" aria-label="Copy server IP to clipboard">Copy Server IP</button>
-    </div>
-    <div class="copy-feedback" id="copyFeedback" role="alert" aria-live="polite"></div>
-    <footer class="server-ip">
-      Server IP: <code>135.181.60.153:20011</code>
-    </footer>
-  </section>
+  <div id="tabContentContainer" aria-live="polite">
+    <div id="tabContentSlider">
+      <section id="contentHome" role="tabpanel" tabindex="0" aria-labelledby="tabHome">
+        <img src="kingsmc.png" alt="Kings MC Network Logo" class="logo" />
+        <p>
+          Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes,
+          an active Discord community, and an overall fun experience!
+        </p>
+        <div class="buttons">
+          <a href="https://discord.gg/VJeepweWRr" target="_blank" rel="noopener noreferrer" class="button-link">Join Discord</a>
+          <button class="copy" id="copyButton" aria-label="Copy server IP to clipboard">Copy Server IP</button>
+        </div>
+        <div class="copy-feedback" id="copyFeedback" role="alert" aria-live="polite"></div>
+        <footer class="server-ip">
+          Server IP: <code>135.181.60.153:20011</code>
+        </footer>
+      </section>
 
-  <section id="contentStats" class="hidden" role="tabpanel" tabindex="0" aria-hidden="true">
-    <h2>Server Status</h2>
+      <section id="contentStats" role="tabpanel" tabindex="0" aria-labelledby="tabStats">
+        <h2>Server Status</h2>
 
-    <div class="stats-section smp-section">
-      <div class="section-title smp-title">SMP Server</div>
-      <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP data...</p>
-      <div id="smpOutput"></div>
-      <div id="smpPlayers" class="players-list"></div>
-    </div>
+        <div class="stats-section smp-section">
+          <div class="section-title smp-title">SMP Server</div>
+          <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP data...</p>
+          <div id="smpOutput"></div>
+          <div id="smpPlayers" class="players-list"></div>
+        </div>
 
-    <div class="stats-section lifesteal-section">
-      <div class="section-title lifesteal-title">Lifesteal Server</div>
-      <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal data...</p>
-      <div id="lifestealOutput"></div>
-      <div id="lifestealPlayers" class="players-list"></div>
+        <div class="stats-section lifesteal-section">
+          <div class="section-title lifesteal-title">Lifesteal Server</div>
+          <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal data...</p>
+          <div id="lifestealOutput"></div>
+          <div id="lifestealPlayers" class="players-list"></div>
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
 </main>
 
 <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer" class="watermark" tabindex="0">site made by cal</a>
@@ -275,40 +290,36 @@
 <script>
   const tabHome = document.getElementById("tabHome");
   const tabStats = document.getElementById("tabStats");
-  const contentHome = document.getElementById("contentHome");
-  const contentStats = document.getElementById("contentStats");
+  const tabContentSlider = document.getElementById("tabContentSlider");
   const copyButton = document.getElementById("copyButton");
   const copyFeedback = document.getElementById("copyFeedback");
 
   const serverIP = "135.181.60.153:20011";
 
-  function activateTab(selectedTab, selectedPanel) {
+  function activateTab(selectedTab) {
     // Deactivate all tabs
     [tabHome, tabStats].forEach(tab => {
       tab.classList.remove("active");
       tab.setAttribute("aria-selected", "false");
       tab.tabIndex = -1;
     });
-    // Hide all panels
-    [contentHome, contentStats].forEach(panel => {
-      panel.classList.add("hidden");
-      panel.setAttribute("aria-hidden", "true");
-    });
     // Activate selected tab
     selectedTab.classList.add("active");
     selectedTab.setAttribute("aria-selected", "true");
     selectedTab.tabIndex = 0;
     selectedTab.focus();
-    // Show selected panel
-    selectedPanel.classList.remove("hidden");
-    selectedPanel.setAttribute("aria-hidden", "false");
+
+    // Slide content
+    if (selectedTab === tabHome) {
+      tabContentSlider.style.transform = "translateX(0)";
+    } else {
+      tabContentSlider.style.transform = "translateX(-50%)";
+      loadServerStats();
+    }
   }
 
-  tabHome.addEventListener("click", () => activateTab(tabHome, contentHome));
-  tabStats.addEventListener("click", () => {
-    activateTab(tabStats, contentStats);
-    loadServerStats();
-  });
+  tabHome.addEventListener("click", () => activateTab(tabHome));
+  tabStats.addEventListener("click", () => activateTab(tabStats));
 
   // Keyboard navigation for tabs
   [tabHome, tabStats].forEach((tab, idx) => {
@@ -373,30 +384,4 @@
         statusEl.innerHTML = '<span class="status-dot dot-online"></span>Server is online.';
 
         const players = data.players ? `${data.players.online} / ${data.players.max}` : "Unknown";
-        const motd = data.motd && data.motd.clean ? data.motd.clean.join(" ") : "N/A";
-        const version = data.version || "N/A";
-
-        outputEl.innerHTML = `
-          <strong>Version:</strong> ${version}<br/>
-          <strong>Players:</strong> ${players}<br/>
-          <strong>MOTD:</strong> ${motd}
-        `;
-
-        if (data.players && data.players.list && data.players.list.length > 0) {
-          playersEl.innerHTML = data.players.list
-            .map(player => `<span title="Online Player">${player}</span>`)
-            .join("");
-        } else {
-          playersEl.innerHTML = "<em>No player list available.</em>";
-        }
-      })
-      .catch(() => {
-        statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Error loading data.';
-        outputEl.innerHTML = "";
-        playersEl.innerHTML = "";
-      });
-  }
-</script>
-
-</body>
-</html>
+        const motd = data.motd && data.motd.clean ? data.motd.clean.join(" ") : "N/A"
