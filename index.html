@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kings MC Network</title>
 <style>
-  /* Reset & base */
   body, html {
     margin: 0; padding: 0;
     height: 100%;
@@ -45,7 +44,7 @@
     flex: 1;
     max-width: 700px;
     width: 90%;
-    padding: 1.5rem 1rem 4rem; /* bottom padding for crowns */
+    padding: 1.5rem 1rem 5rem; /* extra bottom padding for crown */
     text-align: center;
   }
   img.logo {
@@ -103,7 +102,6 @@
   .watermark:hover {
     opacity: 0.9;
   }
-  /* Server stats sections */
   .stats-section {
     background: #1a1a1a;
     border-radius: 6px;
@@ -146,15 +144,15 @@
   .dot-offline {
     background-color: #e74c3c;
   }
-  /* Minimal floating crowns container */
-  .bottom-crowns {
+  /* Single medium crown bottom center */
+  .bottom-crown {
     position: fixed;
-    bottom: 10px;
+    bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
-    width: 110px;
-    height: 35px;
-    opacity: 0.12;
+    width: 60px;
+    height: 30px;
+    opacity: 0.15;
     pointer-events: none;
     z-index: 1000;
   }
@@ -205,15 +203,11 @@
 
 <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer" class="watermark">site made by cal</a>
 
-<!-- Minimal floating crowns -->
-<svg class="bottom-crowns" viewBox="0 0 120 40" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-  <g fill="#e3b341">
-    <!-- Left crown -->
-    <path d="M10 30 L13 15 L18 25 L22 15 L25 30 L20 20 L15 30 Z"/>
-    <!-- Center crown -->
-    <path d="M50 30 L54 12 L60 28 L66 12 L70 30 L62 18 L56 30 Z"/>
-    <!-- Right crown -->
-    <path d="M90 30 L93 15 L98 25 L102 15 L105 30 L100 20 L95 30 Z"/>
+<!-- Single medium crown SVG -->
+<svg class="bottom-crown" viewBox="0 0 64 32" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#e3b341" stroke="#b08c22" stroke-width="1">
+    <path d="M4 28 L10 10 L14 22 L20 8 L24 20 L30 6 L34 20 L38 8 L44 22 L48 10 L54 28 Z"/>
+    <rect x="10" y="26" width="34" height="4" rx="1" ry="1"/>
   </g>
 </svg>
 
