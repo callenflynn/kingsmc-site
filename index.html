@@ -49,18 +49,13 @@
     width: 90%;
     padding: 1.5rem 1rem 5rem;
     position: relative;
-    overflow: hidden;
-  }
-  #tabContentSlider {
-    display: flex;
-    width: 400%;
-    transition: transform 0.5s ease;
   }
   main > section {
-    flex: 1 0 25%;
-    box-sizing: border-box;
-    padding: 0 1rem;
+    display: none;
     text-align: center;
+  }
+  main > section.active {
+    display: block;
   }
   img.logo {
     max-width: 280px;
@@ -173,63 +168,61 @@
 </nav>
 
 <main>
-  <div id="tabContentSlider">
-    <!-- Home -->
-    <section>
-      <img src="kingsmc.png" alt="Logo" class="logo" />
-      <p>Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes, an active Discord community, and an overall fun experience!</p>
-      <div class="buttons">
-        <a href="https://discord.gg/VJeepweWRr" class="button-link" target="_blank">Join Discord</a>
-        <button class="copy" id="copyButton">Copy Server IP</button>
-      </div>
-      <div class="copy-feedback" id="copyFeedback"></div>
-      <footer class="server-ip">Server IP: <code>135.181.60.153:20011</code></footer>
-    </section>
+  <!-- Home -->
+  <section id="contentHome" class="active">
+    <img src="kingsmc.png" alt="Logo" class="logo" />
+    <p>Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes, an active Discord community, and an overall fun experience!</p>
+    <div class="buttons">
+      <a href="https://discord.gg/VJeepweWRr" class="button-link" target="_blank">Join Discord</a>
+      <button class="copy" id="copyButton">Copy Server IP</button>
+    </div>
+    <div class="copy-feedback" id="copyFeedback"></div>
+    <footer class="server-ip">Server IP: <code>135.181.60.153:20011</code></footer>
+  </section>
 
-    <!-- Server Stats -->
-    <section>
-      <h2>Server Status</h2>
-      <div class="stats-section smp-section">
-        <div class="section-title smp-title">SMP Server</div>
-        <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP data...</p>
-        <div id="smpOutput"></div>
-        <div id="smpPlayers" class="players-list"></div>
-      </div>
-      <div class="stats-section lifesteal-section">
-        <div class="section-title lifesteal-title">Lifesteal Server</div>
-        <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal data...</p>
-        <div id="lifestealOutput"></div>
-        <div id="lifestealPlayers" class="players-list"></div>
-      </div>
-    </section>
+  <!-- Server Stats -->
+  <section id="contentStats">
+    <h2>Server Status</h2>
+    <div class="stats-section smp-section">
+      <div class="section-title smp-title">SMP Server</div>
+      <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP data...</p>
+      <div id="smpOutput"></div>
+      <div id="smpPlayers" class="players-list"></div>
+    </div>
+    <div class="stats-section lifesteal-section">
+      <div class="section-title lifesteal-title">Lifesteal Server</div>
+      <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal data...</p>
+      <div id="lifestealOutput"></div>
+      <div id="lifestealPlayers" class="players-list"></div>
+    </div>
+  </section>
 
-    <!-- Rules -->
-    <section style="text-align:left;">
-      <h2>🧑‍🤝‍🧑 SMP Rules</h2>
-      <ul class="rules-list">
-        <li>Respect Everyone. No bullying, harassment, hate speech, or discrimination.</li>
-        <li>Be kind and considerate to all players.</li>
-        <li>No spamming or inappropriate content.</li>
-        <li>No griefing or stealing. Always get permission.</li>
-        <li>No hacking or unfair mods. Optifine/minimaps allowed.</li>
-        <li>PvP must be consensual. No spawn killing.</li>
-        <li>No exploits or duplication glitches.</li>
-        <li>Build respectfully and avoid lag.</li>
-        <li>Clean up after yourself.</li>
-        <li>Staff must show proof of bans. No admin abuse.</li>
-        <li>Bots must not spam or disrupt gameplay.</li>
-      </ul>
-      <h2>💔 Lifesteal Rules</h2>
-      <p>🚫 NO RULES 🚫<br>Do whatever you want. No bans on Lifesteal.</p>
-    </section>
+  <!-- Rules -->
+  <section id="contentRules">
+    <h2>🧑‍🤝‍🧑 SMP Rules</h2>
+    <ul class="rules-list">
+      <li>Respect Everyone. No bullying, harassment, hate speech, or discrimination.</li>
+      <li>Be kind and considerate to all players.</li>
+      <li>No spamming or inappropriate content.</li>
+      <li>No griefing or stealing. Always get permission.</li>
+      <li>No hacking or unfair mods. Optifine/minimaps allowed.</li>
+      <li>PvP must be consensual. No spawn killing.</li>
+      <li>No exploits or duplication glitches.</li>
+      <li>Build respectfully and avoid lag.</li>
+      <li>Clean up after yourself.</li>
+      <li>Staff must show proof of bans. No admin abuse.</li>
+      <li>Bots must not spam or disrupt gameplay.</li>
+    </ul>
+    <h2>💔 Lifesteal Rules</h2>
+    <p>🚫 NO RULES 🚫<br>Do whatever you want. No bans on Lifesteal.</p>
+  </section>
 
-    <!-- Credits -->
-    <section>
-      <h2>Credits</h2>
-      <p><strong>Web Developer:</strong> Callen</p>
-      <p><strong>Server Owner:</strong> Samuel King</p>
-    </section>
-  </div>
+  <!-- Credits -->
+  <section id="contentCredits">
+    <h2>Credits</h2>
+    <p><strong>Web Developer:</strong> Callen</p>
+    <p><strong>Server Owner:</strong> Samuel King</p>
+  </section>
 </main>
 
 <svg class="bottom-crown" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
@@ -241,22 +234,24 @@
 
 <script>
 const tabs = [
-  {button: document.getElementById("tabHome"), index:0},
-  {button: document.getElementById("tabStats"), index:1},
-  {button: document.getElementById("tabRules"), index:2},
-  {button: document.getElementById("tabCredits"), index:3}
+  {button: document.getElementById("tabHome"), content: document.getElementById("contentHome")},
+  {button: document.getElementById("tabStats"), content: document.getElementById("contentStats")},
+  {button: document.getElementById("tabRules"), content: document.getElementById("contentRules")},
+  {button: document.getElementById("tabCredits"), content: document.getElementById("contentCredits")}
 ];
-const slider = document.getElementById("tabContentSlider");
 const copyButton = document.getElementById("copyButton");
 const copyFeedback = document.getElementById("copyFeedback");
 const serverIP = "135.181.60.153:20011";
 
-tabs.forEach(({button,index})=>{
+tabs.forEach(({button,content})=>{
   button.addEventListener("click",()=>{
-    tabs.forEach(t=>t.button.classList.remove("active"));
+    tabs.forEach(t=>{
+      t.button.classList.remove("active");
+      t.content.classList.remove("active");
+    });
     button.classList.add("active");
-    slider.style.transform = `translateX(-${index*25}%)`;
-    if(index===1) loadServerStats();
+    content.classList.add("active");
+    if(content.id==="contentStats") loadServerStats();
   });
 });
 
