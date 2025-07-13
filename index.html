@@ -384,4 +384,30 @@
         statusEl.innerHTML = '<span class="status-dot dot-online"></span>Server is online.';
 
         const players = data.players ? `${data.players.online} / ${data.players.max}` : "Unknown";
-        const motd = data.motd && data.motd.clean ? data.motd.clean.join(" ") : "N/A"
+        const motd = data.motd && data.motd.clean ? data.motd.clean.join(" ") : "N/A";
+        const version = data.version || "N/A";
+
+        outputEl.innerHTML = `
+          <strong>Version:</strong> ${version}<br/>
+          <strong>Players:</strong> ${players}<br/>
+          <strong>MOTD:</strong> ${motd}
+        `;
+
+        if (data.players && data.players.list && data.players.list.length > 0) {
+          playersEl.innerHTML = data.players.list
+            .map(player => `<span title="Online Player">${player}</span>`)
+            .join("");
+        } else {
+          playersEl.innerHTML = "<em>No player list available.</em>";
+        }
+      })
+      .catch(() => {
+        statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Error loading data.';
+        outputEl.innerHTML = "";
+        playersEl.innerHTML = "";
+      });
+  }
+</script>
+
+</body>
+</html>
