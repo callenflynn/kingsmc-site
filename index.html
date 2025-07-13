@@ -8,12 +8,14 @@
   body {
     margin: 0;
     font-family: "Georgia", serif;
-    background: #111 url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="0.5" fill="%23e3b341" /></svg>') repeat;
+    background: #111 url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="0.3" fill="%23e3b341" /></svg>') repeat;
     color: #f0f0f0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    overflow-x: hidden;
   }
 
   nav {
@@ -158,21 +160,14 @@
     background-color: #e74c3c;
   }
 
-  .flourish {
+  .bottom-decoration {
     position: fixed;
     bottom: 0;
-    width: 60px;
-    height: 60px;
-    opacity: 0.3;
-    fill: #e3b341;
-    z-index: 999;
-  }
-  .flourish.left {
-    left: 10px;
-  }
-  .flourish.right {
-    right: 10px;
-    transform: scaleX(-1);
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 1;
+    opacity: 0.2;
   }
 </style>
 </head>
@@ -219,12 +214,14 @@
 
 <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer" class="watermark">site made by cal</a>
 
-<!-- Royal Flourishes -->
-<svg class="flourish left" viewBox="0 0 512 512">
-  <path d="M256 32l32 96h96l-80 64 32 96-80-64-80 64 32-96-80-64h96z"/>
-</svg>
-<svg class="flourish right" viewBox="0 0 512 512">
-  <path d="M256 32l32 96h96l-80 64 32 96-80-64-80 64 32-96-80-64h96z"/>
+<!-- Crown Waves Decoration -->
+<svg class="bottom-decoration" viewBox="0 0 1200 120" preserveAspectRatio="none">
+  <path d="M0,0 C300,100 900,0 1200,100 L1200,120 L0,120 Z" fill="#e3b341"/>
+  <g fill="#e3b341">
+    <path d="M580 20 L590 40 L610 40 L595 50 L600 70 L580 55 L560 70 L565 50 L550 40 L570 40 Z"/>
+    <path d="M200 40 L210 60 L230 60 L215 70 L220 90 L200 75 L180 90 L185 70 L170 60 L190 60 Z"/>
+    <path d="M950 40 L960 60 L980 60 L965 70 L970 90 L950 75 L930 90 L935 70 L920 60 L940 60 Z"/>
+  </g>
 </svg>
 
 <script>
