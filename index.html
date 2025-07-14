@@ -65,9 +65,14 @@
   main > section { display: none; }
   main > section.active { display: block; }
   img.logo {
-    max-width: 350px; /* made bigger */
+    max-width: 350px;
     height: auto;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  .home-crown {
+    display: block;
+    width: 80px;
+    margin: 1rem auto;
   }
   .buttons {
     margin-top: 1rem;
@@ -103,15 +108,6 @@
     margin-top: 1rem;
     font-size: 0.95rem;
     color: #777;
-  }
-  .bottom-crown {
-    position: fixed;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    opacity: 0.15;
-    pointer-events: none;
   }
   .stats-section {
     background: #1a1a1a;
@@ -167,6 +163,13 @@
 
 <main>
   <section id="home" class="active">
+    <!-- Crown SVG above logo -->
+    <svg class="home-crown" viewBox="0 0 64 32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <g fill="#e3b341" stroke="#b08c22" stroke-width="1">
+        <path d="M4 28 L10 10 L14 22 L20 8 L24 20 L30 6 L34 20 L38 8 L44 22 L48 10 L54 28 Z"/>
+        <rect x="10" y="26" width="34" height="4" rx="1" ry="1"/>
+      </g>
+    </svg>
     <img src="kingsmc.png" alt="Kings MC Network Logo" class="logo" />
     <p>Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes, an active Discord community, and an overall fun experience!</p>
     <div class="buttons">
@@ -226,13 +229,6 @@
   </section>
 </main>
 
-<svg class="bottom-crown" viewBox="0 0 64 32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-  <g fill="#e3b341" stroke="#b08c22" stroke-width="1">
-    <path d="M4 28 L10 10 L14 22 L20 8 L24 20 L30 6 L34 20 L38 8 L44 22 L48 10 L54 28 Z"/>
-    <rect x="10" y="26" width="34" height="4" rx="1" ry="1"/>
-  </g>
-</svg>
-
 <script>
 const tabs = document.querySelectorAll("nav button");
 const sections = document.querySelectorAll("main > section");
@@ -248,7 +244,6 @@ tabs.forEach(btn => {
     const section = document.getElementById(btn.dataset.tab);
     section.classList.add("active");
     homeBg.style.display = btn.dataset.tab === "home" ? "block" : "none";
-    if(btn.dataset.tab === "stats") loadServerStats();
   });
 });
 
@@ -258,38 +253,6 @@ copyBtn.addEventListener("click", () => {
     setTimeout(()=> feedback.textContent="",1500);
   });
 });
-
-function loadServerStats(){
-  fetchServer("https://api.mcsrvstat.us/2/95.217.120.159:10015",
-    document.getElementById("smpStatus"),
-    document.getElementById("smpOutput"),
-    document.getElementById("smpPlayers"));
-  fetchServer("https://api.mcsrvstat.us/2/65.109.155.228:15015",
-    document.getElementById("lifestealStatus"),
-    document.getElementById("lifestealOutput"),
-    document.getElementById("lifestealPlayers"));
-}
-
-function fetchServer(url,statusEl,outputEl,playersEl){
-  statusEl.innerHTML = "Loading...";
-  outputEl.textContent = "";
-  playersEl.textContent = "";
-  fetch(url)
-    .then(r=>r.json())
-    .then(data=>{
-      if(!data.online){
-        statusEl.innerHTML='<span class="status-dot dot-offline"></span>Server is offline.';
-        return;
-      }
-      statusEl.innerHTML='<span class="status-dot dot-online"></span>Server is online.';
-      outputEl.innerHTML=`<strong>Version:</strong> ${data.version || "N/A"}<br/>
-      <strong>Players:</strong> ${data.players?.online ?? "?"} / ${data.players?.max ?? "?"}`;
-      if(data.players?.list){
-        playersEl.innerHTML = data.players.list.map(p=>`<span>${p}</span>`).join("");
-      }
-    })
-    .catch(()=>statusEl.innerHTML='<span class="status-dot dot-offline"></span>Error loading.');
-}
 </script>
 </body>
 </html>
