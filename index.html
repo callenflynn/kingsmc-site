@@ -14,110 +14,40 @@
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    font-size: 18px; /* Slightly bigger text */
   }
-  body {
-    position: relative;
-    width: 100%;
-  }
-  /* Home background image behind entire home content */
-  #home {
-    position: relative;
-    width: 100%;
-    max-width: 700px;
-    padding-top: 180px; /* enough space for the background image shifted down */
-    padding-bottom: 2rem;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-  #home::before {
-    content: "";
-    position: absolute;
-    top: 80px; /* shifted down */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120%;
-    height: 320px;
-    background: url('kingman.jpeg') center center no-repeat;
-    background-size: contain;
-    opacity: 0.15;
-    z-index: 0;
-    pointer-events: none;
-  }
-  /* Navigation container is relative so we can position pattern absolutely full width behind tabs */
   nav {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     max-width: 700px;
+    background: #222;
+    border-bottom: 1px solid #333;
     margin-top: 1rem;
-    z-index: 10;
   }
-  /* Full width pattern behind tabs */
-  nav::before {
-    content: "";
-    position: fixed; /* fixed so full width always */
-    top: calc(1rem + 44px + 48px); /* nav top margin + home-button height + some gap */
-    left: 0;
-    width: 100vw;
-    height: 70px;
-    background:
-      repeating-linear-gradient(
-        45deg,
-        #b38f00,
-        #b38f00 5px,
-        #000000 5px,
-        #000000 10px
-      );
-    z-index: 0;
-  }
-  /* Semi-transparent black overlay behind tabs */
-  nav > .tabs-bg {
-    position: absolute;
-    top: 56px; /* below home-button */
-    left: 0;
-    right: 0;
-    height: 70px;
-    background: rgba(0,0,0,0.75);
-    pointer-events: none;
-    z-index: 5;
-    border-radius: 8px;
-  }
-  /* Home button on top, centered and double width */
-  nav .home-button {
-    position: relative;
-    z-index: 20;
-    width: calc(130px * 2 + 10px);
-    margin: 0 auto 10px;
+  /* Home button on its own centered line, double width */
+  nav button.home-tab {
+    width: 260px; /* double width */
     background: #222;
     border: none;
     color: #ccc;
     padding: 1rem;
     font-size: 1rem;
     cursor: pointer;
-    font-family: inherit;
     transition: background 0.3s;
-    border-radius: 4px;
+    font-family: inherit;
+    margin-bottom: 0.5rem;
   }
-  nav .home-button:focus-visible {
-    outline: 2px solid #e3b341;
-  }
-  nav .home-button.active, nav .home-button:hover {
-    background: #333;
-    color: #e3b341;
-  }
-  /* Tabs container - positioned below home button */
-  nav .tabs {
+  /* Container for other tabs in a row */
+  .other-tabs {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    position: relative;
-    z-index: 10;
-    padding: 0 10px;
-    height: 70px;
-    align-items: center;
-    border-radius: 8px;
+    gap: 8px;
+    width: 100%;
+    max-width: 700px;
+    flex-wrap: wrap;
   }
-  nav .tabs button {
+  .other-tabs button {
     width: 130px;
     background: #222;
     border: none;
@@ -125,49 +55,52 @@
     padding: 1rem;
     font-size: 1rem;
     cursor: pointer;
-    font-family: inherit;
-    border-radius: 4px;
     transition: background 0.3s;
+    font-family: inherit;
   }
-  nav .tabs button:focus-visible {
+  nav button:focus-visible {
     outline: 2px solid #e3b341;
   }
-  nav .tabs button.active, nav .tabs button:hover {
+  nav button.active,
+  nav button:hover {
     background: #333;
     color: #e3b341;
   }
-
   main {
     flex: 1;
     max-width: 700px;
     width: 90%;
     padding: 1.5rem 1rem 5rem;
     text-align: center;
-    font-size: 1.125rem; /* slightly bigger */
     position: relative;
-    z-index: 15;
+    z-index: 1;
+  }
+  .home-background {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('kingman.jpeg') center calc(50% + 60px) / cover no-repeat;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
   }
   main > section { display: none; }
   main > section.active { display: block; }
-  img.logo {
-    max-width: 340px; /* bigger */
-    height: auto;
-    margin-bottom: 1rem;
+  /* Wrapper for crown + logo on home page to stack crown above logo */
+  .home-logo-wrapper {
     position: relative;
-    z-index: 15; /* above crown */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  /* Crown positioned absolutely above kingsmc.png */
-  .bottom-crown {
-    position: absolute;
+  /* Inline SVG crown container */
+  .home-crown {
     width: 120px;
-    height: 60px;
-    bottom: 100%; /* place it above the logo */
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 1; /* fully opaque */
-    pointer-events: none;
-    z-index: 20;
-    margin-bottom: 12px;
+    fill: #e3b341;
+    margin-bottom: 0.5rem;
+  }
+  img.logo {
+    max-width: 350px;
+    height: auto;
   }
   .buttons {
     margin-top: 1rem;
@@ -195,20 +128,20 @@
   }
   .copy-feedback {
     margin-top: 0.8rem;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #7fff7f;
     min-height: 1.2em;
   }
   footer.server-ip {
     margin-top: 1rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #777;
   }
   .watermark {
     position: fixed;
     bottom: 12px;
     right: 12px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #bbb;
     text-decoration: underline;
     opacity: 0.45;
@@ -253,47 +186,13 @@
     display: block;
     margin: 1rem auto;
   }
-
-  /* Responsive */
-  @media (max-width: 480px) {
-    nav .home-button {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-    nav .tabs button {
-      width: calc(50% - 10px);
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-      padding: 0.75rem;
-    }
-    main {
-      font-size: 1rem;
-      width: 95%;
-      padding: 1rem 0.5rem 4rem;
-    }
-    img.logo {
-      max-width: 250px;
-      margin-bottom: 0.75rem;
-    }
-    .bottom-crown {
-      width: 90px;
-      height: 45px;
-      bottom: 100%;
-      margin-bottom: 10px;
-    }
-    nav::before {
-      top: calc(1rem + 44px + 48px);
-      height: 60px;
-    }
-  }
 </style>
 </head>
 <body>
 
 <nav>
-  <button class="home-button active" data-tab="home">Home</button>
-  <div class="tabs-bg"></div>
-  <div class="tabs">
+  <button data-tab="home" class="home-tab active">Home</button>
+  <div class="other-tabs">
     <button data-tab="stats">Server Stats</button>
     <button data-tab="rules">Rules</button>
     <button data-tab="credits">Credits</button>
@@ -302,35 +201,35 @@
 </nav>
 
 <main>
-  <section id="home" class="active" aria-label="Home page content">
-    <div class="bottom-crown" aria-hidden="true" role="presentation">
-      <svg viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg" fill="#e3b341" stroke="#b08c22" stroke-width="1">
-        <g>
+  <section id="home" class="active">
+    <div class="home-background"></div>
+    <div class="home-logo-wrapper">
+      <!-- Inline SVG crown above logo -->
+      <svg class="home-crown" viewBox="0 0 64 32" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Crown">
+        <g fill="#e3b341" stroke="#b08c22" stroke-width="1">
           <path d="M4 28 L10 10 L14 22 L20 8 L24 20 L30 6 L34 20 L38 8 L44 22 L48 10 L54 28 Z"/>
           <rect x="10" y="26" width="34" height="4" rx="1" ry="1"/>
         </g>
       </svg>
+      <img src="kingsmc.png" alt="Kings MC Network Logo" class="logo" />
     </div>
-    <img src="kingsmc.png" alt="Kings MC Network Logo" class="logo" />
     <p>Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes, an active Discord community, and an overall fun experience!</p>
     <div class="buttons">
-      <a href="https://discord.gg/VJeepweWRr" target="_blank" class="button-link" rel="noopener noreferrer">Join Discord</a>
-      <button class="copy" aria-label="Copy server IP to clipboard">Copy Server IP</button>
+      <a href="https://discord.gg/VJeepweWRr" target="_blank" class="button-link">Join Discord</a>
+      <button class="copy">Copy Server IP</button>
     </div>
-    <div class="copy-feedback" aria-live="polite"></div>
+    <div class="copy-feedback"></div>
     <footer class="server-ip">Server IP: <code>135.181.60.153:20011</code></footer>
   </section>
 
-  <section id="stats" aria-label="Server statistics">
+  <section id="stats">
     <h2>Server Status</h2>
-
     <div class="stats-section">
       <h3 class="smp-title">SMP Server</h3>
       <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP status...</p>
       <div id="smpOutput"></div>
       <div id="smpPlayers" class="players-list"></div>
     </div>
-
     <div class="stats-section">
       <h3 class="lifesteal-title">Lifesteal Server</h3>
       <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal status...</p>
@@ -339,7 +238,7 @@
     </div>
   </section>
 
-  <section id="rules" aria-label="Server rules">
+  <section id="rules">
     <h1>SMP Rules</h1>
     <h2>🧑‍🤝 Respect Everyone</h2>
     <p>No bullying, hate speech, or spam. Be kind. No inappropriate content.</p>
@@ -369,13 +268,13 @@
     <p>❌ NO RULES. Do whatever you want.</p>
   </section>
 
-  <section id="credits" aria-label="Credits">
+  <section id="credits">
     <h2>Credits</h2>
     <p><strong>Web Developer:</strong> <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer">Callen</a></p>
-    <p><strong>Server Owner:</strong> <a href="https://www.youtube.com/@SK_PRO78" target="_blank" rel="noopener noreferrer">SK_PRO78</a></p>
+    <p><strong>Server Owner:</strong> Samuel King</p>
   </section>
 
-  <section id="affiliates" aria-label="Affiliates">
+  <section id="affiliates">
     <h2>Affiliates</h2>
     <img src="concord.png" alt="Concord SMP Logo" class="concord-logo" />
     <div class="concord-box">
@@ -385,54 +284,61 @@
   </section>
 </main>
 
-<div class="watermark" tabindex="0" role="link" aria-label="Site made by Cal">
-  <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration: underline;">site made by cal</a>
-</div>
-
 <script>
-  const tabs = document.querySelectorAll("nav button");
-  const sections = document.querySelectorAll("main > section");
-  const copyBtn = document.querySelector(".copy");
-  const feedback = document.querySelector(".copy-feedback");
+const tabs = document.querySelectorAll("nav button");
+const sections = document.querySelectorAll("main > section");
+const copyBtn = document.querySelector(".copy");
+const feedback = document.querySelector(".copy-feedback");
 
-  tabs.forEach(btn => {
-    btn.addEventListener("click", () => {
-      tabs.forEach(b => b.classList.remove("active"));
-      sections.forEach(s => s.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById(btn.dataset.tab).classList.add("active");
-      if (btn.dataset.tab === "stats") loadServerStats();
-    });
+tabs.forEach(btn => {
+  btn.addEventListener("click", () => {
+    tabs.forEach(b => b.classList.remove("active"));
+    sections.forEach(s => s.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+    if(btn.dataset.tab === "stats") loadServerStats();
   });
+});
 
-  copyBtn.addEventListener("click", () => {
-    navigator.clipboard.writeText("135.181.60.153:20011").then(() => {
-      feedback.textContent = "Copied!";
-      setTimeout(() => (feedback.textContent = ""), 1500);
-    });
+copyBtn.addEventListener("click", () => {
+  navigator.clipboard.writeText("135.181.60.153:20011").then(() => {
+    feedback.textContent = "Copied!";
+    setTimeout(() => feedback.textContent = "", 1500);
   });
+});
 
-  function loadServerStats() {
-    fetchServer(
-      "https://api.mcsrvstat.us/2/95.217.120.159:10015",
-      document.getElementById("smpStatus"),
-      document.getElementById("smpOutput"),
-      document.getElementById("smpPlayers")
-    );
-    fetchServer(
-      "https://api.mcsrvstat.us/2/65.109.155.228:15015",
-      document.getElementById("lifestealStatus"),
-      document.getElementById("lifestealOutput"),
-      document.getElementById("lifestealPlayers")
-    );
-  }
+function loadServerStats() {
+  fetchServer("https://api.mcsrvstat.us/2/95.217.120.159:10015",
+    document.getElementById("smpStatus"),
+    document.getElementById("smpOutput"),
+    document.getElementById("smpPlayers"));
+  fetchServer("https://api.mcsrvstat.us/2/65.109.155.228:15015",
+    document.getElementById("lifestealStatus"),
+    document.getElementById("lifestealOutput"),
+    document.getElementById("lifestealPlayers"));
+}
 
-  function fetchServer(url, statusEl, outputEl, playersEl) {
-    statusEl.innerHTML = "Loading...";
-    outputEl.textContent = "";
-    playersEl.textContent = "";
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        if (!data.online) {
-          statusEl.innerHTML
+function fetchServer(url, statusEl, outputEl, playersEl) {
+  statusEl.innerHTML = "Loading...";
+  outputEl.textContent = "";
+  playersEl.textContent = "";
+  fetch(url)
+    .then(r => r.json())
+    .then(data => {
+      if (!data.online) {
+        statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Server is offline.';
+        return;
+      }
+      statusEl.innerHTML = '<span class="status-dot dot-online"></span>Server is online.';
+      outputEl.innerHTML = `<strong>Version:</strong> ${data.version || "N/A"}<br/>
+      <strong>Players:</strong> ${data.players?.online ?? "?"} / ${data.players?.max ?? "?"}`;
+      if (data.players?.list) {
+        playersEl.innerHTML = data.players.list.map(p => `<span>${p}</span>`).join("");
+      }
+    })
+    .catch(() => statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Error loading.');
+}
+</script>
+
+</body>
+</html>
