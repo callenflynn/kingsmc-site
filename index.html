@@ -18,35 +18,48 @@
   }
   body {
     position: relative;
+    width: 100%;
   }
-  /* Background image behind home text, shifted down */
+  /* Home background image behind entire home content */
   #home {
     position: relative;
-    z-index: 0;
-    padding-top: 150px; /* space for background */
+    width: 100%;
+    max-width: 700px;
+    padding-top: 180px; /* enough space for the background image shifted down */
+    padding-bottom: 2rem;
+    box-sizing: border-box;
+    overflow: hidden;
   }
   #home::before {
     content: "";
     position: absolute;
-    top: 60px; /* moved down */
+    top: 80px; /* shifted down */
     left: 50%;
     transform: translateX(-50%);
-    width: 100%;
-    max-width: 700px;
-    height: 300px;
+    width: 120%;
+    height: 320px;
     background: url('kingman.jpeg') center center no-repeat;
     background-size: contain;
     opacity: 0.15;
-    z-index: -1;
+    z-index: 0;
     pointer-events: none;
   }
-  /* Navigation container with pattern behind tabs */
+  /* Navigation container is relative so we can position pattern absolutely full width behind tabs */
   nav {
     position: relative;
     width: 100%;
     max-width: 700px;
     margin-top: 1rem;
-    /* pattern behind transparent black box */
+    z-index: 10;
+  }
+  /* Full width pattern behind tabs */
+  nav::before {
+    content: "";
+    position: fixed; /* fixed so full width always */
+    top: calc(1rem + 44px + 48px); /* nav top margin + home-button height + some gap */
+    left: 0;
+    width: 100vw;
+    height: 70px;
     background:
       repeating-linear-gradient(
         45deg,
@@ -55,21 +68,24 @@
         #000000 5px,
         #000000 10px
       );
-    border-radius: 8px;
-    box-shadow: 0 0 10px #b38f00aa;
-  }
-  /* Semitransparent black overlay inside nav for tabs */
-  nav > .tabs-bg {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    border-radius: 8px;
-    pointer-events: none;
     z-index: 0;
   }
+  /* Semi-transparent black overlay behind tabs */
+  nav > .tabs-bg {
+    position: absolute;
+    top: 56px; /* below home-button */
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: rgba(0,0,0,0.75);
+    pointer-events: none;
+    z-index: 5;
+    border-radius: 8px;
+  }
+  /* Home button on top, centered and double width */
   nav .home-button {
     position: relative;
-    z-index: 2;
+    z-index: 20;
     width: calc(130px * 2 + 10px);
     margin: 0 auto 10px;
     background: #222;
@@ -89,14 +105,17 @@
     background: #333;
     color: #e3b341;
   }
+  /* Tabs container - positioned below home button */
   nav .tabs {
     display: flex;
     justify-content: center;
     gap: 10px;
     position: relative;
-    z-index: 2;
-    flex-wrap: wrap;
-    padding: 0 10px 10px;
+    z-index: 10;
+    padding: 0 10px;
+    height: 70px;
+    align-items: center;
+    border-radius: 8px;
   }
   nav .tabs button {
     width: 130px;
@@ -125,26 +144,30 @@
     padding: 1.5rem 1rem 5rem;
     text-align: center;
     font-size: 1.125rem; /* slightly bigger */
+    position: relative;
+    z-index: 15;
   }
   main > section { display: none; }
   main > section.active { display: block; }
   img.logo {
-    max-width: 320px; /* bigger */
+    max-width: 340px; /* bigger */
     height: auto;
     margin-bottom: 1rem;
     position: relative;
-    z-index: 1; /* above crown */
+    z-index: 15; /* above crown */
   }
+  /* Crown positioned absolutely above kingsmc.png */
   .bottom-crown {
     position: absolute;
-    width: 100px;
-    height: 50px;
-    bottom: 145px; /* just above kingsmc.png logo (which is around 150px from top) */
+    width: 120px;
+    height: 60px;
+    bottom: 100%; /* place it above the logo */
     left: 50%;
     transform: translateX(-50%);
     opacity: 1; /* fully opaque */
     pointer-events: none;
-    z-index: 2;
+    z-index: 20;
+    margin-bottom: 12px;
   }
   .buttons {
     margin-top: 1rem;
@@ -253,9 +276,14 @@
       margin-bottom: 0.75rem;
     }
     .bottom-crown {
-      width: 80px;
-      height: 40px;
-      bottom: 120px;
+      width: 90px;
+      height: 45px;
+      bottom: 100%;
+      margin-bottom: 10px;
+    }
+    nav::before {
+      top: calc(1rem + 44px + 48px);
+      height: 60px;
     }
   }
 </style>
@@ -274,7 +302,7 @@
 </nav>
 
 <main>
-  <section id="home" class="active">
+  <section id="home" class="active" aria-label="Home page content">
     <div class="bottom-crown" aria-hidden="true" role="presentation">
       <svg viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg" fill="#e3b341" stroke="#b08c22" stroke-width="1">
         <g>
@@ -293,7 +321,7 @@
     <footer class="server-ip">Server IP: <code>135.181.60.153:20011</code></footer>
   </section>
 
-  <section id="stats">
+  <section id="stats" aria-label="Server statistics">
     <h2>Server Status</h2>
 
     <div class="stats-section">
@@ -311,7 +339,7 @@
     </div>
   </section>
 
-  <section id="rules">
+  <section id="rules" aria-label="Server rules">
     <h1>SMP Rules</h1>
     <h2>🧑‍🤝 Respect Everyone</h2>
     <p>No bullying, hate speech, or spam. Be kind. No inappropriate content.</p>
@@ -341,13 +369,13 @@
     <p>❌ NO RULES. Do whatever you want.</p>
   </section>
 
-  <section id="credits">
+  <section id="credits" aria-label="Credits">
     <h2>Credits</h2>
     <p><strong>Web Developer:</strong> <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer">Callen</a></p>
     <p><strong>Server Owner:</strong> <a href="https://www.youtube.com/@SK_PRO78" target="_blank" rel="noopener noreferrer">SK_PRO78</a></p>
   </section>
 
-  <section id="affiliates">
+  <section id="affiliates" aria-label="Affiliates">
     <h2>Affiliates</h2>
     <img src="concord.png" alt="Concord SMP Logo" class="concord-logo" />
     <div class="concord-box">
@@ -407,31 +435,4 @@
       .then((r) => r.json())
       .then((data) => {
         if (!data.online) {
-          statusEl.innerHTML =
-            '<span class="status-dot dot-offline"></span>Server is offline.';
-          return;
-        }
-        statusEl.innerHTML =
-          '<span class="status-dot dot-online"></span>Server is online.';
-        outputEl.innerHTML = `<strong>Version:</strong> ${
-          data.version || "N/A"
-        }<br/>
-      <strong>Players:</strong> ${data.players?.online ?? "?"} / ${
-          data.players?.max ?? "?"
-        }`;
-        if (data.players?.list) {
-          playersEl.innerHTML = data.players.list
-            .map((p) => `<span>${p}</span>`)
-            .join("");
-        }
-      })
-      .catch(
-        () =>
-          (statusEl.innerHTML =
-            '<span class="status-dot dot-offline"></span>Error loading.')
-      );
-  }
-</script>
-
-</body>
-</html>
+          statusEl.innerHTML
