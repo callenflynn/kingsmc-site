@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kings MC Network</title>
 <style>
-  body, html {
+  html, body {
     margin: 0; padding: 0;
     background: #111;
     color: #eee;
@@ -40,7 +40,8 @@
   nav button:focus-visible {
     outline: 2px solid #e3b341;
   }
-  nav button.active, nav button:hover {
+  nav button.active,
+  nav button:hover {
     background: #333;
     color: #e3b341;
   }
@@ -51,21 +52,20 @@
     padding: 1.5rem 1rem 5rem;
     text-align: center;
     position: relative;
+    z-index: 1;
+  }
+  .home-background {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('kingman.jpeg') center/cover no-repeat;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
   }
   main > section { display: none; }
   main > section.active { display: block; }
-  .home-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right:0;
-    bottom:0;
-    background: url('kingman.jpeg') center/cover no-repeat;
-    opacity: 0.15;
-    z-index: -1;
-  }
   img.logo {
-    max-width: 280px;
+    max-width: 350px; /* made bigger */
     height: auto;
     margin-bottom: 1rem;
   }
@@ -104,24 +104,13 @@
     font-size: 0.95rem;
     color: #777;
   }
-  .watermark {
-    position: fixed;
-    bottom: 12px;
-    right: 12px;
-    font-size: 0.85rem;
-    color: #bbb;
-    text-decoration: underline;
-    opacity: 0.45;
-    cursor: pointer;
-  }
-  .watermark:hover { opacity: 0.9; }
   .bottom-crown {
     position: fixed;
     bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     width: 60px;
-    opacity: 0.4;
+    opacity: 0.15;
     pointer-events: none;
   }
   .stats-section {
@@ -166,6 +155,8 @@
 </head>
 <body>
 
+<div id="homeBg" class="home-background"></div>
+
 <nav>
   <button data-tab="home" class="active">Home</button>
   <button data-tab="stats">Server Stats</button>
@@ -176,7 +167,6 @@
 
 <main>
   <section id="home" class="active">
-    <div class="home-bg"></div>
     <img src="kingsmc.png" alt="Kings MC Network Logo" class="logo" />
     <p>Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes, an active Discord community, and an overall fun experience!</p>
     <div class="buttons">
@@ -189,14 +179,12 @@
 
   <section id="stats">
     <h2>Server Status</h2>
-
     <div class="stats-section">
       <h3 class="smp-title">SMP Server</h3>
       <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP status...</p>
       <div id="smpOutput"></div>
       <div id="smpPlayers" class="players-list"></div>
     </div>
-
     <div class="stats-section">
       <h3 class="lifesteal-title">Lifesteal Server</h3>
       <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal status...</p>
@@ -207,32 +195,19 @@
 
   <section id="rules">
     <h1>SMP Rules</h1>
-    <h2>🧑‍🤝 Respect Everyone</h2>
-    <p>No bullying, hate speech, or spam. Be kind. No inappropriate content.</p>
-    <h2>🛡️ No Griefing</h2>
-    <p>Don’t destroy or alter others' builds. Spawn is protected.</p>
-    <h2>🎒 No Stealing</h2>
-    <p>No unauthorized item taking.</p>
-    <h2>🧹 No Hacking</h2>
-    <p>Unfair mods not allowed. Cosmetic mods okay.</p>
-    <h2>⚔️ PvP Rules</h2>
-    <p>PvP must be agreed upon. No tricks.</p>
-    <h2>🪸 No Exploits</h2>
-    <p>No item dupes or glitch abuse.</p>
-    <h2>🏗️ Build Respectfully</h2>
-    <p>No offensive/troll builds. Ask before building near others.</p>
-    <h2>⚙️ Lag Control</h2>
-    <p>Efficient farms and redstone only. Must have off switches.</p>
-    <h2>🌳 World Cleanup</h2>
-    <p>No messy builds. Clean after projects.</p>
-    <h2>📖 Contracts</h2>
-    <p>Use books. Breaking = temp ban.</p>
-    <h2>🛠️ Staff Rules</h2>
-    <p>Staff follow rules. Bans need proof.</p>
-    <h2>🤖 Bots</h2>
-    <p>No spam or disruption.</p>
-    <h1>💔 Lifesteal Rules</h1>
-    <p>❌ NO RULES. Do whatever you want.</p>
+    <h2>🧑‍🤝 Respect Everyone</h2><p>No bullying, hate speech, or spam. Be kind. No inappropriate content.</p>
+    <h2>🛡️ No Griefing</h2><p>Don’t destroy or alter others' builds. Spawn is protected.</p>
+    <h2>🎒 No Stealing</h2><p>No unauthorized item taking.</p>
+    <h2>🧹 No Hacking</h2><p>Unfair mods not allowed. Cosmetic mods okay.</p>
+    <h2>⚔️ PvP Rules</h2><p>PvP must be agreed upon. No tricks.</p>
+    <h2>🪸 No Exploits</h2><p>No item dupes or glitch abuse.</p>
+    <h2>🏗️ Build Respectfully</h2><p>No offensive/troll builds. Ask before building near others.</p>
+    <h2>⚙️ Lag Control</h2><p>Efficient farms and redstone only. Must have off switches.</p>
+    <h2>🌳 World Cleanup</h2><p>No messy builds. Clean after projects.</p>
+    <h2>📖 Contracts</h2><p>Use books. Breaking = temp ban.</p>
+    <h2>🛠️ Staff Rules</h2><p>Staff follow rules. Bans need proof.</p>
+    <h2>🤖 Bots</h2><p>No spam or disruption.</p>
+    <h1>💔 Lifesteal Rules</h1><p>❌ NO RULES. Do whatever you want.</p>
   </section>
 
   <section id="credits">
@@ -251,8 +226,7 @@
   </section>
 </main>
 
-<!-- SVG Crown -->
-<svg class="bottom-crown" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
+<svg class="bottom-crown" viewBox="0 0 64 32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
   <g fill="#e3b341" stroke="#b08c22" stroke-width="1">
     <path d="M4 28 L10 10 L14 22 L20 8 L24 20 L30 6 L34 20 L38 8 L44 22 L48 10 L54 28 Z"/>
     <rect x="10" y="26" width="34" height="4" rx="1" ry="1"/>
@@ -262,6 +236,7 @@
 <script>
 const tabs = document.querySelectorAll("nav button");
 const sections = document.querySelectorAll("main > section");
+const homeBg = document.getElementById("homeBg");
 const copyBtn = document.querySelector(".copy");
 const feedback = document.querySelector(".copy-feedback");
 
@@ -270,7 +245,9 @@ tabs.forEach(btn => {
     tabs.forEach(b => b.classList.remove("active"));
     sections.forEach(s => s.classList.remove("active"));
     btn.classList.add("active");
-    document.getElementById(btn.dataset.tab).classList.add("active");
+    const section = document.getElementById(btn.dataset.tab);
+    section.classList.add("active");
+    homeBg.style.display = btn.dataset.tab === "home" ? "block" : "none";
     if(btn.dataset.tab === "stats") loadServerStats();
   });
 });
@@ -314,6 +291,5 @@ function fetchServer(url,statusEl,outputEl,playersEl){
     .catch(()=>statusEl.innerHTML='<span class="status-dot dot-offline"></span>Error loading.');
 }
 </script>
-
 </body>
 </html>
