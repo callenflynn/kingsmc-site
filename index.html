@@ -50,9 +50,20 @@
     width: 90%;
     padding: 1.5rem 1rem 5rem;
     text-align: center;
+    position: relative;
   }
   main > section { display: none; }
   main > section.active { display: block; }
+  .home-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom:0;
+    background: url('kingman.jpeg') center/cover no-repeat;
+    opacity: 0.15;
+    z-index: -1;
+  }
   img.logo {
     max-width: 280px;
     height: auto;
@@ -110,7 +121,8 @@
     left: 50%;
     transform: translateX(-50%);
     width: 60px;
-    opacity: 0.15;
+    opacity: 0.4;
+    pointer-events: none;
   }
   .stats-section {
     background: #1a1a1a;
@@ -164,6 +176,7 @@
 
 <main>
   <section id="home" class="active">
+    <div class="home-bg"></div>
     <img src="kingsmc.png" alt="Kings MC Network Logo" class="logo" />
     <p>Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes, an active Discord community, and an overall fun experience!</p>
     <div class="buttons">
@@ -192,35 +205,35 @@
     </div>
   </section>
 
-    <section id="rules">
-      <h1>SMP Rules</h1>
-      <h2>🧑‍🤝 Respect Everyone</h2>
-      <p>No bullying, hate speech, or spam. Be kind. No inappropriate content.</p>
-      <h2>🛡️ No Griefing</h2>
-      <p>Don’t destroy or alter others' builds. Spawn is protected.</p>
-      <h2>🎒 No Stealing</h2>
-      <p>No unauthorized item taking.</p>
-      <h2>🧹 No Hacking</h2>
-      <p>Unfair mods not allowed. Cosmetic mods okay.</p>
-      <h2>⚔️ PvP Rules</h2>
-      <p>PvP must be agreed upon. No tricks.</p>
-      <h2>🪸 No Exploits</h2>
-      <p>No item dupes or glitch abuse.</p>
-      <h2>🏗️ Build Respectfully</h2>
-      <p>No offensive/troll builds. Ask before building near others.</p>
-      <h2>⚙️ Lag Control</h2>
-      <p>Efficient farms and redstone only. Must have off switches.</p>
-      <h2>🌳 World Cleanup</h2>
-      <p>No messy builds. Clean after projects.</p>
-      <h2>📖 Contracts</h2>
-      <p>Use books. Breaking = temp ban.</p>
-      <h2>🛠️ Staff Rules</h2>
-      <p>Staff follow rules. Bans need proof.</p>
-      <h2>🤖 Bots</h2>
-      <p>No spam or disruption.</p>
-      <h1>💔 Lifesteal Rules</h1>
-      <p>❌ NO RULES. Do whatever you want.</p>
-    </section>
+  <section id="rules">
+    <h1>SMP Rules</h1>
+    <h2>🧑‍🤝 Respect Everyone</h2>
+    <p>No bullying, hate speech, or spam. Be kind. No inappropriate content.</p>
+    <h2>🛡️ No Griefing</h2>
+    <p>Don’t destroy or alter others' builds. Spawn is protected.</p>
+    <h2>🎒 No Stealing</h2>
+    <p>No unauthorized item taking.</p>
+    <h2>🧹 No Hacking</h2>
+    <p>Unfair mods not allowed. Cosmetic mods okay.</p>
+    <h2>⚔️ PvP Rules</h2>
+    <p>PvP must be agreed upon. No tricks.</p>
+    <h2>🪸 No Exploits</h2>
+    <p>No item dupes or glitch abuse.</p>
+    <h2>🏗️ Build Respectfully</h2>
+    <p>No offensive/troll builds. Ask before building near others.</p>
+    <h2>⚙️ Lag Control</h2>
+    <p>Efficient farms and redstone only. Must have off switches.</p>
+    <h2>🌳 World Cleanup</h2>
+    <p>No messy builds. Clean after projects.</p>
+    <h2>📖 Contracts</h2>
+    <p>Use books. Breaking = temp ban.</p>
+    <h2>🛠️ Staff Rules</h2>
+    <p>Staff follow rules. Bans need proof.</p>
+    <h2>🤖 Bots</h2>
+    <p>No spam or disruption.</p>
+    <h1>💔 Lifesteal Rules</h1>
+    <p>❌ NO RULES. Do whatever you want.</p>
+  </section>
 
   <section id="credits">
     <h2>Credits</h2>
@@ -237,6 +250,14 @@
     </div>
   </section>
 </main>
+
+<!-- SVG Crown -->
+<svg class="bottom-crown" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#e3b341" stroke="#b08c22" stroke-width="1">
+    <path d="M4 28 L10 10 L14 22 L20 8 L24 20 L30 6 L34 20 L38 8 L44 22 L48 10 L54 28 Z"/>
+    <rect x="10" y="26" width="34" height="4" rx="1" ry="1"/>
+  </g>
+</svg>
 
 <script>
 const tabs = document.querySelectorAll("nav button");
