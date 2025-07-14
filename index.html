@@ -17,17 +17,38 @@
   }
   nav {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     max-width: 700px;
     background: #222;
     border-bottom: 1px solid #333;
     margin-top: 1rem;
   }
-  nav button {
+  /* Home button on its own centered line, double width */
+  nav button.home-tab {
+    width: 260px; /* double width */
+    background: #222;
+    border: none;
+    color: #ccc;
+    padding: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: inherit;
+    margin-bottom: 0.5rem;
+  }
+  /* Container for other tabs in a row */
+  .other-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 700px;
+    flex-wrap: wrap;
+  }
+  .other-tabs button {
     width: 130px;
-    flex: 0 0 auto;
     background: #222;
     border: none;
     color: #ccc;
@@ -71,8 +92,8 @@
   }
   .home-crown {
     display: block;
-    width: 80px;
-    margin: 1rem auto;
+    width: 120px; /* bigger crown */
+    margin: 1rem auto 0;
   }
   .buttons {
     margin-top: 1rem;
@@ -109,6 +130,17 @@
     font-size: 0.95rem;
     color: #777;
   }
+  .watermark {
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    font-size: 0.85rem;
+    color: #bbb;
+    text-decoration: underline;
+    opacity: 0.45;
+    cursor: pointer;
+  }
+  .watermark:hover { opacity: 0.9; }
   .stats-section {
     background: #1a1a1a;
     border-radius: 6px;
@@ -151,26 +183,21 @@
 </head>
 <body>
 
-<div id="homeBg" class="home-background"></div>
-
 <nav>
-  <button data-tab="home" class="active">Home</button>
-  <button data-tab="stats">Server Stats</button>
-  <button data-tab="rules">Rules</button>
-  <button data-tab="credits">Credits</button>
-  <button data-tab="affiliates">Affiliates</button>
+  <button class="home-tab active" data-tab="home">Home</button>
+  <div class="other-tabs">
+    <button data-tab="stats">Server Stats</button>
+    <button data-tab="rules">Rules</button>
+    <button data-tab="credits">Credits</button>
+    <button data-tab="affiliates">Affiliates</button>
+  </div>
 </nav>
 
 <main>
+  <div class="home-background"></div>
   <section id="home" class="active">
-    <!-- Crown SVG above logo -->
-    <svg class="home-crown" viewBox="0 0 64 32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-      <g fill="#e3b341" stroke="#b08c22" stroke-width="1">
-        <path d="M4 28 L10 10 L14 22 L20 8 L24 20 L30 6 L34 20 L38 8 L44 22 L48 10 L54 28 Z"/>
-        <rect x="10" y="26" width="34" height="4" rx="1" ry="1"/>
-      </g>
-    </svg>
     <img src="kingsmc.png" alt="Kings MC Network Logo" class="logo" />
+    <img src="crown.svg" alt="Crown" class="home-crown" aria-hidden="true" />
     <p>Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes, an active Discord community, and an overall fun experience!</p>
     <div class="buttons">
       <a href="https://discord.gg/VJeepweWRr" target="_blank" class="button-link">Join Discord</a>
@@ -182,12 +209,14 @@
 
   <section id="stats">
     <h2>Server Status</h2>
+
     <div class="stats-section">
       <h3 class="smp-title">SMP Server</h3>
       <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP status...</p>
       <div id="smpOutput"></div>
       <div id="smpPlayers" class="players-list"></div>
     </div>
+
     <div class="stats-section">
       <h3 class="lifesteal-title">Lifesteal Server</h3>
       <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal status...</p>
@@ -198,25 +227,38 @@
 
   <section id="rules">
     <h1>SMP Rules</h1>
-    <h2>🧑‍🤝 Respect Everyone</h2><p>No bullying, hate speech, or spam. Be kind. No inappropriate content.</p>
-    <h2>🛡️ No Griefing</h2><p>Don’t destroy or alter others' builds. Spawn is protected.</p>
-    <h2>🎒 No Stealing</h2><p>No unauthorized item taking.</p>
-    <h2>🧹 No Hacking</h2><p>Unfair mods not allowed. Cosmetic mods okay.</p>
-    <h2>⚔️ PvP Rules</h2><p>PvP must be agreed upon. No tricks.</p>
-    <h2>🪸 No Exploits</h2><p>No item dupes or glitch abuse.</p>
-    <h2>🏗️ Build Respectfully</h2><p>No offensive/troll builds. Ask before building near others.</p>
-    <h2>⚙️ Lag Control</h2><p>Efficient farms and redstone only. Must have off switches.</p>
-    <h2>🌳 World Cleanup</h2><p>No messy builds. Clean after projects.</p>
-    <h2>📖 Contracts</h2><p>Use books. Breaking = temp ban.</p>
-    <h2>🛠️ Staff Rules</h2><p>Staff follow rules. Bans need proof.</p>
-    <h2>🤖 Bots</h2><p>No spam or disruption.</p>
-    <h1>💔 Lifesteal Rules</h1><p>❌ NO RULES. Do whatever you want.</p>
+    <h2>🧑‍🤝 Respect Everyone</h2>
+    <p>No bullying, hate speech, or spam. Be kind. No inappropriate content.</p>
+    <h2>🛡️ No Griefing</h2>
+    <p>Don’t destroy or alter others' builds. Spawn is protected.</p>
+    <h2>🎒 No Stealing</h2>
+    <p>No unauthorized item taking.</p>
+    <h2>🧹 No Hacking</h2>
+    <p>Unfair mods not allowed. Cosmetic mods okay.</p>
+    <h2>⚔️ PvP Rules</h2>
+    <p>PvP must be agreed upon. No tricks.</p>
+    <h2>🪸 No Exploits</h2>
+    <p>No item dupes or glitch abuse.</p>
+    <h2>🏗️ Build Respectfully</h2>
+    <p>No offensive/troll builds. Ask before building near others.</p>
+    <h2>⚙️ Lag Control</h2>
+    <p>Efficient farms and redstone only. Must have off switches.</p>
+    <h2>🌳 World Cleanup</h2>
+    <p>No messy builds. Clean after projects.</p>
+    <h2>📖 Contracts</h2>
+    <p>Use books. Breaking = temp ban.</p>
+    <h2>🛠️ Staff Rules</h2>
+    <p>Staff follow rules. Bans need proof.</p>
+    <h2>🤖 Bots</h2>
+    <p>No spam or disruption.</p>
+    <h1>💔 Lifesteal Rules</h1>
+    <p>❌ NO RULES. Do whatever you want.</p>
   </section>
 
   <section id="credits">
     <h2>Credits</h2>
     <p><strong>Web Developer:</strong> <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank">Callen</a></p>
-    <p><strong>Server Owner:</strong> <a href="https://www.youtube.com/@SK_PRO78" target="_blank">SK_PRO78</a></p>
+    <p><strong>Server Owner:</strong> <a href="https://www.youtube.com/@SK_PRO78" target="_blank">Samuel King</a></p>
   </section>
 
   <section id="affiliates">
@@ -232,7 +274,6 @@
 <script>
 const tabs = document.querySelectorAll("nav button");
 const sections = document.querySelectorAll("main > section");
-const homeBg = document.getElementById("homeBg");
 const copyBtn = document.querySelector(".copy");
 const feedback = document.querySelector(".copy-feedback");
 
@@ -241,9 +282,8 @@ tabs.forEach(btn => {
     tabs.forEach(b => b.classList.remove("active"));
     sections.forEach(s => s.classList.remove("active"));
     btn.classList.add("active");
-    const section = document.getElementById(btn.dataset.tab);
-    section.classList.add("active");
-    homeBg.style.display = btn.dataset.tab === "home" ? "block" : "none";
+    document.getElementById(btn.dataset.tab).classList.add("active");
+    if(btn.dataset.tab === "stats") loadServerStats();
   });
 });
 
@@ -253,6 +293,39 @@ copyBtn.addEventListener("click", () => {
     setTimeout(()=> feedback.textContent="",1500);
   });
 });
+
+function loadServerStats(){
+  fetchServer("https://api.mcsrvstat.us/2/95.217.120.159:10015",
+    document.getElementById("smpStatus"),
+    document.getElementById("smpOutput"),
+    document.getElementById("smpPlayers"));
+  fetchServer("https://api.mcsrvstat.us/2/65.109.155.228:15015",
+    document.getElementById("lifestealStatus"),
+    document.getElementById("lifestealOutput"),
+    document.getElementById("lifestealPlayers"));
+}
+
+function fetchServer(url,statusEl,outputEl,playersEl){
+  statusEl.innerHTML = "Loading...";
+  outputEl.textContent = "";
+  playersEl.textContent = "";
+  fetch(url)
+    .then(r=>r.json())
+    .then(data=>{
+      if(!data.online){
+        statusEl.innerHTML='<span class="status-dot dot-offline"></span>Server is offline.';
+        return;
+      }
+      statusEl.innerHTML='<span class="status-dot dot-online"></span>Server is online.';
+      outputEl.innerHTML=`<strong>Version:</strong> ${data.version || "N/A"}<br/>
+      <strong>Players:</strong> ${data.players?.online ?? "?"} / ${data.players?.max ?? "?"}`;
+      if(data.players?.list){
+        playersEl.innerHTML = data.players.list.map(p=>`<span>${p}</span>`).join("");
+      }
+    })
+    .catch(()=>statusEl.innerHTML='<span class="status-dot dot-offline"></span>Error loading.');
+}
 </script>
+
 </body>
 </html>
