@@ -75,24 +75,23 @@
     position: relative;
     z-index: 1;
   }
-  .home-background {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: url('kingman.jpeg') center calc(50% + 60px) / cover no-repeat;
-    opacity: 0.15;
-    pointer-events: none;
-    z-index: 0;
-  }
+.home-background {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('kingman.jpeg') center calc(50% + 80px) / cover no-repeat;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
   main > section { display: none; }
   main > section.active { display: block; }
-  /* Wrapper for crown + logo on home page to stack crown above logo */
   .home-logo-wrapper {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  /* Inline SVG crown container */
   .home-crown {
     width: 120px;
     fill: #e3b341;
