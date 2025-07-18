@@ -2,226 +2,182 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KingsMC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KINGS MC</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
-      background: url('kingman.jpeg') no-repeat center center fixed;
-      background-size: cover;
-      text-align: center;
+      background-color: #111;
       overflow-x: hidden;
     }
 
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.65);
-      padding: 2rem;
-      min-height: 100vh;
+    .home-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('kingman.jpeg') center center / cover no-repeat;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .tabs {
+    nav {
+      position: relative;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
-      gap: 1rem;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 1rem 0;
-      border-radius: 12px;
-      margin-bottom: 1rem;
+      gap: 10px;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2;
     }
 
-    .tab-btn {
+    .nav-tab {
       padding: 10px 20px;
-      border: none;
-      background: gold;
-      color: black;
-      cursor: pointer;
-      font-weight: bold;
+      background: #222;
+      border: 2px solid gold;
       border-radius: 5px;
+      cursor: pointer;
       transition: background 0.3s;
     }
 
-    .tab-btn:hover, .tab-btn.active {
-      background: black;
-      color: gold;
+    .nav-tab:hover {
+      background: #333;
     }
 
-    .home-btn {
-      position: absolute;
-      top: -45px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(2 * 120px + 1rem);
+    .nav-tab.active {
       background: gold;
       color: black;
-      font-size: 1.2rem;
-      font-weight: bold;
-      padding: 12px 0;
-      border-radius: 8px;
-      z-index: 2;
+    }
+
+    .home-tab {
+      width: calc(2 * 130px + 20px); /* Approximate width of 2 tabs plus gap */
+      text-align: center;
+      margin: 0 auto;
+      position: relative;
+      top: -10px;
+    }
+
+    #logo {
+      display: block;
+      margin: 20px auto 10px;
+      max-width: 200px;
+    }
+
+    #crown {
+      display: block;
+      margin: 0 auto;
+      max-width: 100px;
+      margin-bottom: -30px;
+      z-index: 3;
+      position: relative;
     }
 
     .tab-content {
       display: none;
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 2rem;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      margin: 20px auto;
+      max-width: 900px;
       border-radius: 10px;
+      z-index: 2;
+      position: relative;
     }
 
     .tab-content.active {
       display: block;
-      animation: fadeIn 0.3s ease-in-out;
     }
 
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(10px);}
-      to {opacity: 1; transform: translateY(0);}
+    footer.server-ip {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.95rem;
+      color: #777;
     }
 
-    .crown {
-      width: 80px;
-      margin: 1rem auto 0;
-      display: block;
-    }
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+      }
 
-    .logo {
-      width: 160px;
-      margin: 1rem auto 0;
-      display: block;
-    }
-
-    .ip-text {
-      font-size: 1.2rem;
-      margin-top: 20px;
-    }
-
-    .affiliates-box {
-      background: rgba(255, 215, 0, 0.1);
-      border: 2px solid gold;
-      padding: 1rem;
-      border-radius: 12px;
-      margin-top: 1rem;
-    }
-
-    .affiliates-box img {
-      width: 100px;
-      margin-bottom: 10px;
-    }
-
-    a {
-      color: gold;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    @media screen and (max-width: 600px) {
-      .tab-btn, .home-btn {
+      .home-tab {
         width: 100%;
-        font-size: 1rem;
       }
 
-      .home-btn {
-        width: 90%;
+      #logo {
+        max-width: 150px;
       }
 
-      .logo {
-        width: 130px;
-      }
-
-      .crown {
-        width: 60px;
-      }
-
-      .ip-text {
-        font-size: 1rem;
+      #crown {
+        max-width: 80px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <div class="tabs">
-      <button class="home-btn tab-btn" onclick="showTab('home')">Home</button>
-      <button class="tab-btn" onclick="showTab('rules')">Rules</button>
-      <button class="tab-btn" onclick="showTab('stats')">Server Stats</button>
-      <button class="tab-btn" onclick="showTab('credits')">Credits</button>
-      <button class="tab-btn" onclick="showTab('affiliates')">Affiliates</button>
-    </div>
+  <div class="home-background"></div>
 
-    <!-- Crown only on Home -->
-    <img src="crown.png" alt="Crown" class="crown" id="crown-img" />
+  <img id="crown" src="crown.png" alt="Crown" />
+  <img id="logo" src="kingsmc.png" alt="KINGS MC Logo" />
 
-    <!-- KingsMC Logo -->
-    <img src="kingsmc.png" alt="KingsMC Logo" class="logo" />
+  <nav>
+    <div class="nav-tab home-tab" onclick="showTab('home')">Home</div>
+    <div class="nav-tab" onclick="showTab('rules')">Rules</div>
+    <div class="nav-tab" onclick="showTab('serverstats')">Server Stats</div>
+    <div class="nav-tab" onclick="showTab('credits')">Credits</div>
+    <div class="nav-tab" onclick="showTab('affiliates')">Affiliates</div>
+  </nav>
 
-    <div class="ip-text">IP: lifesteal.kingsmc.xyz</div>
-
-    <div id="home" class="tab-content active">
-      <h2>Welcome to KingsMC</h2>
-      <p>Choose a tab to view server rules, stats, credits, or affiliates.</p>
-    </div>
-
-    <div id="rules" class="tab-content">
-      <h2>SMP Rules</h2>
-      <ul style="text-align: left;">
-        <li>🧑‍🤝‍🧑 Be kind, no bullying, spam, or inappropriate behavior.</li>
-        <li>🛡️ No griefing, stealing, or damaging others' builds.</li>
-        <li>🧩 No hacking or unfair mods. Ask if unsure.</li>
-        <li>⚔️ PvP must be consensual. No spawn killing.</li>
-        <li>🧨 No exploits or duplication glitches.</li>
-        <li>🏗️ Build respectfully & don’t block others.</li>
-        <li>⚙️ Keep contraptions lag-friendly & clean up after builds.</li>
-        <li>📖 Contracts are binding. Breaking them results in temp bans.</li>
-        <li>🛠️ Staff must follow rules & show video proof for bans.</li>
-        <li>🤖 Bots must not be spammy or disruptive.</li>
-      </ul>
-    </div>
-
-    <div id="stats" class="tab-content">
-      <h2>Server Stats</h2>
-      <iframe src="https://api.mcstatus.io/v2/widget/standard/lifesteal.kingsmc.xyz" width="100%" height="250" frameborder="0"></iframe>
-      <br /><br />
-      <iframe src="https://api.mcstatus.io/v2/widget/standard/smp.kingsmc.xyz" width="100%" height="250" frameborder="0"></iframe>
-    </div>
-
-    <div id="credits" class="tab-content">
-      <h2>Credits</h2>
-      <p>Website and server by <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank">Callen Flynn</a></p>
-    </div>
-
-    <div id="affiliates" class="tab-content">
-      <h2>Affiliates</h2>
-      <a href="https://concord-smp.vercel.app/" target="_blank">
-        <div class="affiliates-box">
-          <img src="concord.png" alt="Concord SMP Logo" />
-          <p>Concord SMP - No mods, no anticheat, just fun Minecraft!</p>
-        </div>
-      </a>
-    </div>
+  <div id="home" class="tab-content active">
+    <h1>Welcome to KINGS MC</h1>
+    <p>This is the home of epic Minecraft adventures.</p>
   </div>
+
+  <div id="rules" class="tab-content">
+    <h2>Server Rules</h2>
+    <p>Respect everyone, no griefing, no stealing, no hacking, PvP must be consensual, and more.</p>
+  </div>
+
+  <div id="serverstats" class="tab-content">
+    <h2>Server Stats</h2>
+    <p>Real-time stats powered by mcsrvstat.us.</p>
+  </div>
+
+  <div id="credits" class="tab-content">
+    <h2>Credits</h2>
+    <p>Website by <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" style="color: gold;">Callen Flynn</a>.</p>
+  </div>
+
+  <div id="affiliates" class="tab-content">
+    <h2>Affiliates</h2>
+    <a href="https://concord-smp.vercel.app/" target="_blank">
+      <img src="concord.png" alt="Concord SMP" style="max-width: 150px; display: block; margin: auto;" />
+    </a>
+    <p style="text-align: center;">Concord SMP: A no-mod, no-anticheat, just fun SMP experience.</p>
+  </div>
+
+  <footer class="server-ip">
+    IP: lifesteal.kingsmc.fun | smp.kingsmc.fun
+  </footer>
 
   <script>
     function showTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      document.getElementById(tabId).classList.add('active');
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.classList.remove('active'));
 
-      // Only show crown on home
-      document.getElementById("crown-img").style.display = tabId === 'home' ? 'block' : 'none';
+      const selected = document.getElementById(tabId);
+      if (selected) selected.classList.add('active');
+
+      const navTabs = document.querySelectorAll('.nav-tab');
+      navTabs.forEach(tab => tab.classList.remove('active'));
+
+      const clicked = Array.from(navTabs).find(tab => tab.textContent.toLowerCase() === tabId.toLowerCase());
+      if (clicked) clicked.classList.add('active');
     }
-
-    // Initialize crown visibility on load
-    window.onload = () => showTab('home');
   </script>
 </body>
 </html>
