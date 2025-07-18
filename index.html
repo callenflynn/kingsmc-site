@@ -1,343 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kings MC Network</title>
-<style>
-  html, body {
-    margin: 0; padding: 0;
-    background: #111;
-    color: #eee;
-    font-family: Georgia, serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-  }
-  nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 700px;
-    background: #222;
-    border-bottom: 1px solid #333;
-    margin-top: 1rem;
-  }
-  /* Home button on its own centered line, double width */
-  nav button.home-tab {
-    width: 260px; /* double width */
-    background: #222;
-    border: none;
-    color: #ccc;
-    padding: 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
-    font-family: inherit;
-    margin-bottom: 0.5rem;
-  }
-  /* Container for other tabs in a row */
-  .other-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    max-width: 700px;
-    flex-wrap: wrap;
-  }
-  .other-tabs button {
-    width: 130px;
-    background: #222;
-    border: none;
-    color: #ccc;
-    padding: 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
-    font-family: inherit;
-  }
-  nav button:focus-visible {
-    outline: 2px solid #e3b341;
-  }
-  nav button.active,
-  nav button:hover {
-    background: #333;
-    color: #e3b341;
-  }
-  main {
-    flex: 1;
-    max-width: 700px;
-    width: 90%;
-    padding: 1.5rem 1rem 5rem;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-  }
-.home-background {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: url('kingman.jpeg') center calc(50% + 80px) / cover no-repeat;
-  opacity: 0.15;
-  pointer-events: none;
-  z-index: 0;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KINGS MC</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-  main > section { display: none; }
-  main > section.active { display: block; }
-  .home-logo-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .home-crown {
-    width: 120px;
-    fill: #e3b341;
-    margin-bottom: 0.5rem;
-  }
-  img.logo {
-    max-width: 350px;
-    height: auto;
-  }
-  .buttons {
-    margin-top: 1rem;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  button.copy, a.button-link {
-    background-color: #e3b341;
-    color: #111;
-    border: none;
-    border-radius: 4px;
-    padding: 0.8rem 1.4rem;
-    font-size: 1rem;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  button.copy:hover {
-    background-color: #cba52b;
-  }
-  a.button-link:hover {
-    background-color: #5865F2;
-    color: #fff;
-  }
-  .copy-feedback {
-    margin-top: 0.8rem;
-    font-size: 0.9rem;
-    color: #7fff7f;
-    min-height: 1.2em;
-  }
-  footer.server-ip {
-    margin-top: 1rem;
-    font-size: 0.95rem;
-    color: #777;
-  }
-  .watermark {
-    position: fixed;
-    bottom: 12px;
-    right: 12px;
-    font-size: 0.85rem;
-    color: #bbb;
-    text-decoration: underline;
-    opacity: 0.45;
-    cursor: pointer;
-  }
-  .watermark:hover { opacity: 0.9; }
-  .stats-section {
-    background: #1a1a1a;
-    border-radius: 6px;
-    margin-top: 1.5rem;
-    padding: 1rem 1.2rem;
-    text-align: left;
-  }
-  .smp-title { color: #e3b341; }
-  .lifesteal-title { color: #e74c3c; }
-  .status-dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-right: 6px;
-  }
-  .dot-online { background: #2ecc71; }
-  .dot-offline { background: #e74c3c; }
-  .players-list span {
-    display: inline-block;
-    margin: 2px;
-    padding: 3px 7px;
-    background: #333;
-    border-radius: 3px;
-  }
-  .concord-box {
-    background: #1a1a1a;
-    padding: 1.5rem;
-    margin-top: 1rem;
-    border: 2px solid #e3b341;
-    border-radius: 6px;
-    color: #e3b341;
-  }
-  .concord-logo {
-    max-width: 200px;
-    display: block;
-    margin: 1rem auto;
-  }
-</style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      background: url('kingman.jpeg') center center / cover no-repeat;
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.7);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px 0;
+    }
+
+    .crown {
+      width: 100px;
+      display: none;
+      margin: 0 auto 10px;
+    }
+
+    .logo {
+      width: 160px;
+      display: block;
+      margin: 10px auto;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      margin-top: 20px;
+    }
+
+    .tabs-container {
+      position: relative;
+      background: linear-gradient(to right, #1f1f1f, #111);
+      border-radius: 10px;
+      padding: 10px 20px;
+      backdrop-filter: blur(6px);
+      z-index: 2;
+      display: inline-block;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid gold;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 1.1rem;
+      min-width: 120px;
+      text-align: center;
+      border-radius: 6px;
+    }
+
+    .tab:hover {
+      background: rgba(255, 215, 0, 0.2);
+    }
+
+    .tab.active {
+      background: gold;
+      color: black;
+    }
+
+    .tab.home-tab {
+      position: absolute;
+      top: -55px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: bold;
+      width: 240px;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      animation: fadeSlide 0.5s ease-in-out;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #server-ip {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 1.2rem;
+    }
+
+    a {
+      color: gold;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .tab {
+        min-width: 90px;
+        padding: 8px 12px;
+        font-size: 1rem;
+      }
+
+      .tab.home-tab {
+        width: 180px;
+      }
+
+      .logo {
+        width: 130px;
+      }
+
+      .crown {
+        width: 80px;
+      }
+
+      .content {
+        margin: 20px;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="overlay"></div>
+  <header>
+    <img src="crown.png" alt="Crown" class="crown" id="crown">
+    <img src="kingsmc.png" alt="KingsMC Logo" class="logo">
+  </header>
 
-<nav>
-  <button data-tab="home" class="home-tab active">Home</button>
-  <div class="other-tabs">
-    <button data-tab="stats">Server Stats</button>
-    <button data-tab="rules">Rules</button>
-    <button data-tab="credits">Credits</button>
-    <button data-tab="affiliates">Affiliates</button>
+  <nav>
+    <div class="tabs-container">
+      <div class="tab home-tab tab-button active" data-tab="home">Home</div>
+      <div class="tabs">
+        <div class="tab tab-button" data-tab="rules">Rules</div>
+        <div class="tab tab-button" data-tab="server">Server Stats</div>
+        <div class="tab tab-button" data-tab="credits">Credits</div>
+        <div class="tab tab-button" data-tab="affiliates">Affiliates</div>
+      </div>
+    </div>
+  </nav>
+
+  <div id="home" class="content tab-content">
+    <h1>Welcome to KINGS MC</h1>
+    <p>Your ultimate Minecraft experience awaits.</p>
+    <div id="server-ip">IP: play.kingsmc.net</div>
   </div>
-</nav>
 
-<main>
-  <section id="home" class="active">
-    <div class="home-background"></div>
-    <div class="home-logo-wrapper">
-      <!-- Inline SVG crown above logo -->
-      <svg class="home-crown" viewBox="0 0 64 32" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Crown">
-        <g fill="#e3b341" stroke="#b08c22" stroke-width="1">
-          <path d="M4 28 L10 10 L14 22 L20 8 L24 20 L30 6 L34 20 L38 8 L44 22 L48 10 L54 28 Z"/>
-          <rect x="10" y="26" width="34" height="4" rx="1" ry="1"/>
-        </g>
-      </svg>
-      <img src="kingsmc.png" alt="Kings MC Network Logo" class="logo" />
-    </div>
-    <p>Join our Minecraft server featuring <strong>SMP</strong> and <strong>Lifesteal</strong> modes, an active Discord community, and an overall fun experience!</p>
-    <div class="buttons">
-      <a href="https://discord.gg/VJeepweWRr" target="_blank" class="button-link">Join Discord</a>
-      <button class="copy">Copy Server IP</button>
-    </div>
-    <div class="copy-feedback"></div>
-    <footer class="server-ip">Server IP: <code>135.181.60.153:20011</code></footer>
-  </section>
+  <div id="rules" class="content tab-content hidden">
+    <h2>Server Rules</h2>
+    <ul>
+      <li><strong>Respect Everyone:</strong> No bullying, hate, spam, or inappropriate behavior.</li>
+      <li><strong>No Griefing:</strong> Don’t destroy or alter others’ builds.</li>
+      <li><strong>No Stealing:</strong> Don’t take items without permission.</li>
+      <li><strong>No Hacking:</strong> No cheats, X-ray, or unfair mods.</li>
+      <li><strong>PvP:</strong> Must be consensual.</li>
+      <li><strong>No Duping:</strong> No exploits or glitches.</li>
+      <li><strong>Build Respectfully:</strong> Avoid offensive or too-close builds.</li>
+      <li><strong>Lag Control:</strong> Farms must be efficient and have off-switches.</li>
+      <li><strong>World Cleanup:</strong> No floating trees or mess.</li>
+      <li><strong>Contracts:</strong> Use signed books. Break = temp ban.</li>
+      <li><strong>Staff:</strong> No abuse. Must provide proof for bans.</li>
+      <li><strong>Bots:</strong> Must not disrupt gameplay.</li>
+    </ul>
+  </div>
 
-  <section id="stats">
+  <div id="server" class="content tab-content hidden">
     <h2>Server Status</h2>
-    <div class="stats-section">
-      <h3 class="smp-title">SMP Server</h3>
-      <p id="smpStatus"><span class="status-dot dot-offline"></span>Loading SMP status...</p>
-      <div id="smpOutput"></div>
-      <div id="smpPlayers" class="players-list"></div>
-    </div>
-    <div class="stats-section">
-      <h3 class="lifesteal-title">Lifesteal Server</h3>
-      <p id="lifestealStatus"><span class="status-dot dot-offline"></span>Loading Lifesteal status...</p>
-      <div id="lifestealOutput"></div>
-      <div id="lifestealPlayers" class="players-list"></div>
-    </div>
-  </section>
+    <p><strong>Lifesteal:</strong> <span id="lifesteal-status">Loading...</span></p>
+    <p><strong>SMP:</strong> <span id="smp-status">Loading...</span></p>
+  </div>
 
-  <section id="rules">
-    <h1>SMP Rules</h1>
-    <h2>🧑‍🤝 Respect Everyone</h2>
-    <p>No bullying, hate speech, or spam. Be kind. No inappropriate content.</p>
-    <h2>🛡️ No Griefing</h2>
-    <p>Don’t destroy or alter others' builds. Spawn is protected.</p>
-    <h2>🎒 No Stealing</h2>
-    <p>No unauthorized item taking.</p>
-    <h2>🧹 No Hacking</h2>
-    <p>Unfair mods not allowed. Cosmetic mods okay.</p>
-    <h2>⚔️ PvP Rules</h2>
-    <p>PvP must be agreed upon. No tricks.</p>
-    <h2>🪸 No Exploits</h2>
-    <p>No item dupes or glitch abuse.</p>
-    <h2>🏗️ Build Respectfully</h2>
-    <p>No offensive/troll builds. Ask before building near others.</p>
-    <h2>⚙️ Lag Control</h2>
-    <p>Efficient farms and redstone only. Must have off switches.</p>
-    <h2>🌳 World Cleanup</h2>
-    <p>No messy builds. Clean after projects.</p>
-    <h2>📖 Contracts</h2>
-    <p>Use books. Breaking = temp ban.</p>
-    <h2>🛠️ Staff Rules</h2>
-    <p>Staff follow rules. Bans need proof.</p>
-    <h2>🤖 Bots</h2>
-    <p>No spam or disruption.</p>
-    <h1>💔 Lifesteal Rules</h1>
-    <p>❌ NO RULES. Do whatever you want.</p>
-  </section>
-
-  <section id="credits">
+  <div id="credits" class="content tab-content hidden">
     <h2>Credits</h2>
-    <p><strong>Web Developer:</strong> <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank" rel="noopener noreferrer">Callen</a></p>
-    <p><strong>Server Owner:</strong> Samuel King</p>
-  </section>
+    <p>Website and server by <a href="https://nestrix-applications.github.io/Nestrix/" target="_blank">Callen</a>.</p>
+  </div>
 
-  <section id="affiliates">
-    <h2>Affiliates</h2>
-    <img src="concord.png" alt="Concord SMP Logo" class="concord-logo" />
-    <div class="concord-box">
-      <p><strong>Concord SMP:</strong><br />An SMP server — no mods, no anticheat, just fun.</p>
-      <p><a href="https://concord-smp.vercel.app/" target="_blank" rel="noopener noreferrer">Visit Concord SMP</a></p>
-    </div>
-  </section>
-</main>
+  <div id="affiliates" class="content tab-content hidden">
+    <h2>Concord SMP</h2>
+    <img src="concord.png" alt="Concord Logo" style="width:140px; display:block; margin:10px auto;">
+    <p>No mods, no anticheat — just fun. Visit <a href="https://concord-smp.vercel.app/" target="_blank">Concord SMP</a>.</p>
+  </div>
 
-<script>
-const tabs = document.querySelectorAll("nav button");
-const sections = document.querySelectorAll("main > section");
-const copyBtn = document.querySelector(".copy");
-const feedback = document.querySelector(".copy-feedback");
+  <script>
+    const tabs = document.querySelectorAll('.tab-button');
+    const contents = document.querySelectorAll('.tab-content');
+    const crown = document.getElementById('crown');
 
-tabs.forEach(btn => {
-  btn.addEventListener("click", () => {
-    tabs.forEach(b => b.classList.remove("active"));
-    sections.forEach(s => s.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById(btn.dataset.tab).classList.add("active");
-    if(btn.dataset.tab === "stats") loadServerStats();
-  });
-});
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(btn => btn.classList.remove('active'));
+        tab.classList.add('active');
 
-copyBtn.addEventListener("click", () => {
-  navigator.clipboard.writeText("135.181.60.153:20011").then(() => {
-    feedback.textContent = "Copied!";
-    setTimeout(() => feedback.textContent = "", 1500);
-  });
-});
+        contents.forEach(content => content.classList.add('hidden'));
+        const tabId = tab.dataset.tab;
+        document.getElementById(tabId).classList.remove('hidden');
 
-function loadServerStats() {
-  fetchServer("https://api.mcsrvstat.us/2/95.217.120.159:10015",
-    document.getElementById("smpStatus"),
-    document.getElementById("smpOutput"),
-    document.getElementById("smpPlayers"));
-  fetchServer("https://api.mcsrvstat.us/2/65.109.155.228:15015",
-    document.getElementById("lifestealStatus"),
-    document.getElementById("lifestealOutput"),
-    document.getElementById("lifestealPlayers"));
-}
+        crown.style.display = tabId === "home" ? "block" : "none";
+      });
+    });
 
-function fetchServer(url, statusEl, outputEl, playersEl) {
-  statusEl.innerHTML = "Loading...";
-  outputEl.textContent = "";
-  playersEl.textContent = "";
-  fetch(url)
-    .then(r => r.json())
-    .then(data => {
-      if (!data.online) {
-        statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Server is offline.';
-        return;
-      }
-      statusEl.innerHTML = '<span class="status-dot dot-online"></span>Server is online.';
-      outputEl.innerHTML = `<strong>Version:</strong> ${data.version || "N/A"}<br/>
-      <strong>Players:</strong> ${data.players?.online ?? "?"} / ${data.players?.max ?? "?"}`;
-      if (data.players?.list) {
-        playersEl.innerHTML = data.players.list.map(p => `<span>${p}</span>`).join("");
-      }
-    })
-    .catch(() => statusEl.innerHTML = '<span class="status-dot dot-offline"></span>Error loading.');
-}
-</script>
+    // Server status check
+    async function fetchServerStatus(ip, elementId) {
+      const res = await fetch(`https://api.mcsrvstat.us/2/${ip}`);
+      const data = await res.json();
+      document.getElementById(elementId).textContent = data.online ? `Online (${data.players.online}/${data.players.max})` : "Offline";
+    }
 
+    fetchServerStatus("lifesteal.kingsmc.net", "lifesteal-status");
+    fetchServerStatus("smp.kingsmc.net", "smp-status");
+  </script>
 </body>
 </html>
